@@ -1,0 +1,80 @@
+<svg viewBox="0 0 290 149" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+  <mask id="path-1-inside-1_4355_15046" fill="white">
+    <path d="M42.351 43.5447C69.4503 15.6992 106.205 0.0557011 144.529 0.0556641L144.529 41.6303C116.936 41.6303 90.4724 52.8936 70.9609 72.9424L42.351 43.5447Z" />
+  </mask>
+  <path
+    d="M42.351 43.5447C69.4503 15.6992 106.205 0.0557011 144.529 0.0556641L144.529 41.6303C116.936 41.6303 90.4724 52.8936 70.9609 72.9424L42.351 43.5447Z"
+    fill="var(--error-300)"
+    stroke="var(--white)"
+    stroke-width="2"
+    mask="url(#path-1-inside-1_4355_15046)"
+  />
+  <mask id="path-2-inside-2_4355_15046" fill="white">
+    <path
+      d="M0 148.481C1.65896e-06 128.982 3.73766 109.674 10.9996 91.6597C18.2615 73.6452 28.9054 57.2767 42.3237 43.489L70.9336 72.8867C61.2724 82.8139 53.6088 94.5992 48.3802 107.57C43.1517 120.54 40.4605 134.442 40.4605 148.481L0 148.481Z"
+    />
+  </mask>
+  <path
+    d="M0 148.481C1.65896e-06 128.982 3.73766 109.674 10.9996 91.6597C18.2615 73.6452 28.9054 57.2767 42.3237 43.489L70.9336 72.8867C61.2724 82.8139 53.6088 94.5992 48.3802 107.57C43.1517 120.54 40.4605 134.442 40.4605 148.481L0 148.481Z"
+    fill="var(--error-400)"
+    stroke="var(--white)"
+    stroke-width="2"
+    mask="url(#path-2-inside-2_4355_15046)"
+  />
+  <mask id="path-3-inside-3_4355_15046" fill="white">
+    <path
+      d="M144.529 0.0556641C182.854 0.0556645 219.608 15.6991 246.708 43.5447L218.098 72.9424C198.586 52.8936 172.123 41.6303 144.529 41.6303L144.529 0.0556641Z"
+    />
+  </mask>
+  <path
+    d="M144.529 0.0556641C182.854 0.0556645 219.608 15.6991 246.708 43.5447L218.098 72.9424C198.586 52.8936 172.123 41.6303 144.529 41.6303L144.529 0.0556641Z"
+    fill="var(--warning-300)"
+    stroke="var(--white)"
+    stroke-width="2"
+    mask="url(#path-3-inside-3_4355_15046)"
+  />
+  <mask id="path-4-inside-4_4355_15046" fill="white">
+    <path d="M246.708 43.5447C268.285 65.7168 282.478 94.3389 287.252 125.309L247.29 131.813C243.853 109.514 233.634 88.9063 218.098 72.9424L246.708 43.5447Z" />
+  </mask>
+  <path
+    d="M246.708 43.5447C268.285 65.7168 282.478 94.3389 287.252 125.309L247.29 131.813C243.853 109.514 233.634 88.9063 218.098 72.9424L246.708 43.5447Z"
+    fill="var(--success-300)"
+    stroke="var(--white)"
+    stroke-width="2"
+    mask="url(#path-4-inside-4_4355_15046)"
+  />
+  <mask id="path-5-inside-5_4355_15046" fill="white">
+    <path d="M287.257 125.34C288.44 133.023 289.033 140.79 289.031 148.568L248.571 148.559C248.572 142.959 248.145 137.367 247.293 131.835L287.257 125.34Z" />
+  </mask>
+  <path
+    d="M287.257 125.34C288.44 133.023 289.033 140.79 289.031 148.568L248.571 148.559C248.572 142.959 248.145 137.367 247.293 131.835L287.257 125.34Z"
+    fill="var(--success-400)"
+    stroke="var(--white)"
+    stroke-width="2"
+    mask="url(#path-5-inside-5_4355_15046)"
+  />
+
+  <!-- Arrow integrated with baked-in coordinates. Rotation applied directly to path. -->
+  <!-- Invisible reference path for center coordinates -->
+  <path
+    id="ckl-barometer-chart-arrow-reference"
+    d="M145 111.75 L145 150"
+    fill="none"
+    stroke="none"
+    data-cx="145"
+    data-cy="150"
+  />
+  
+  <path
+    id="ckl-barometer-chart-arrow-path"
+    fill="currentColor"
+    d="M150.773 101.261H146.000v23.103A4.002 4.002 0 0 1 145.000 132.238a4 4 0 0 1 -1 -7.874v-23.103h-4.773l5.773 -10z"
+    style="
+      transform-origin: 145px 150px;
+      transform-box: view-box;
+      transition: transform 500ms ease-out;
+      will-change: transform;
+      transform: rotate(var(--ckl-barometer-chart-arrow-rotation, 0deg));
+    "
+  />
+</svg>

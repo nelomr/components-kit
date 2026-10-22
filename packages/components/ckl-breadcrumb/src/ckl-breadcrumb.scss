@@ -1,0 +1,32 @@
+.ckl-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 10px;
+
+  &__node{
+    color: var(--primary-500);
+
+    .node-name {
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 400;
+
+      &:hover {
+        text-decoration: underline;
+        font-weight: 600;
+      }
+    }
+
+    &.current-node {
+      .node-name {
+        pointer-events: none;
+        text-decoration: none;
+      };
+
+      .next-sibling {
+        display: none;
+      }
+    }
+  }
+}

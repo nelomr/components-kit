@@ -1,0 +1,198 @@
+/* stylelint-disable */
+/* eslint-disable */
+@use 'sass:color';
+@use 'sass:map';
+@use 'sass:meta';
+
+$colors: (
+  primary: (
+    default: #244A8A,
+    600: #193666,
+    500: #244A8A,
+    400: #4F72AD,
+    300: #88A3D1,
+    200: #C2D1EA,
+    100: #EDF3FB
+  ),
+  secondary: (
+    default: #647B99,
+    600: #4B617C,
+    500: #647B99,
+    400: #899CB4,
+    300: #B5C2D3,
+    200: #DCE3ED,
+    100: #F3F6FA
+  ),
+  grey: (
+    default: #64748B,
+    600: #475569,
+    500: #64748B,
+    400: #94A3B8,
+    300: #CBD5E1,
+    200: #E2E8F0,
+    100: #F1F5F9
+  ),
+  info: (
+    default: #38BDF8,
+    600: #0284C7,
+    500: #38BDF8,
+    400: #7DD3FC,
+    300: #BAE6FD,
+    200: #E0F2FE,
+    100: #F0F9FF
+  ),
+  success: (
+    default: #10B981,
+    700: #047857,
+    600: #059669,
+    500: #10B981,
+    400: #34D399,
+    300: #6EE7B7,
+    200: #A7F3D0,
+    100: #ECFDF5
+  ),
+  warning: (
+    default: #F59E0B,
+    700: #B45309,
+    600: #D97706,
+    500: #F59E0B,
+    400: #FBBF24,
+    300: #FCD34D,
+    200: #FDE68A,
+    100: #FEF3C7
+  ),
+  error: (
+    default: #EF4444,
+    600: #DC2626,
+    500: #EF4444,
+    400: #F87171,
+    300: #FCA5A5,
+    200: #FECACA,
+    100: #FEF2F2
+  ),
+  clear: (
+    default: #F8FAFC,
+    700: #F1F5F9,
+    600: #F8FAFC,
+    500: #FFFFFF,
+    400: rgb(255 255 255 / 40%),
+    300: rgb(255 255 255 / 24%),
+    200: rgb(255 255 255 / 12%)
+  ),
+  purple: (
+    default: #8B5CF6,
+    700: #5B21B6,
+    600: #7C3AED,
+    500: #8B5CF6,
+    400: #A78BFA,
+    300: #C4B5FD,
+    200: #DDD6FE,
+    100: #F5F3FF
+  ),
+  mid-blue: (
+    default: #2563EB,
+    700: #1D4ED8,
+    600: #2563EB,
+    500: #3B82F6,
+    400: #60A5FA,
+    300: #93C5FD,
+    200: #BFDBFE,
+    100: #EFF6FF
+  ),
+  transparent: (
+    default: transparent,
+  ),
+  white: #FFF,
+
+  new-brand: (
+    default: #2563EB,
+    500: #2563EB,
+    400: #60A5FA,
+    300: #93C5FD,
+    200: #BFDBFE,
+    100: #EFF6FF
+  ),
+);
+
+@function get-color($color, $gradient: null) {
+  $color-map: map.get($colors, $color);
+
+  @if not (meta.type-of($color-map) == 'map') {
+    @return $color-map;
+  }
+
+  $key: default!default;
+
+  @if $gradient {
+    $key: $gradient;
+  }
+
+  @return map.get($colorMap, $key);
+}
+
+@mixin css-var($map, $prefix: "") {
+  @each $name, $value in $map {
+    @if meta.type-of($value) == 'map' {
+      @include css-var($value, $name);
+    } @else {
+      @if not ($prefix == "") and ($name == default) {
+        $name: $prefix;
+      } @else {
+        $color-prefix: $prefix;
+
+        @if not ($prefix == "") {
+          $color-prefix: $color-prefix + "-";
+        }
+
+        $name: $color-prefix + $name;
+      }
+
+      $color-name: "--" + #{$name};
+      $rgb-name: "--" + #{$name} + "-rgb";
+      $col: #e1d7d2;
+
+      #{$color-name}: #{$value};
+      #{$rgb-name}: #{color.channel($value, "red", $space: rgb), color.channel($value, "green", $space: rgb), color.channel($value, "blue", $space: rgb)};
+    }
+  }
+}
+
+// eslint-disable-next-line scss/double-slash-comment-whitespace-inside
+//disable stylelint-disable-next-line
+@mixin build-icon-color-class($map, $prefix: "") {
+  @each $name, $value in $map {
+    // eslint-disable-next-line scss/at-rule-conditional-no-parentheses
+    @if (meta.type-of($value) == 'map') {
+      @include build-icon-color-class($value, $name);
+    } @else {
+      @if not ($prefix == "") and ($name == default) {
+        $name: $prefix;
+      } @else {
+        $color-prefix: $prefix;
+
+        @if not ($prefix == "") {
+          $color-prefix: $color-prefix + "-";
+        }
+
+        $name: $color-prefix + $name;
+      }
+
+      &-#{"" + $name} {
+        color: var(--#{"" + $name});
+      }
+    }
+  }
+}
+
+// eslint-disable-next-line scss/double-slash-comment-whitespace-inside
+//disable stylelint-disable-next-line selector-class-pattern
+// eslint-disable-next-line selector-class-pattern
+.ial-icon {
+  &--color {
+    @include build-icon-color-class($colors);
+  }
+}
+
+:root {
+  @include css-var($colors);
+}

@@ -1,0 +1,40 @@
+.ckl-barometer-chart {
+  display: inline-block;
+  width: 100%;
+
+  &__container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__visual {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 1;
+  }
+
+  &__icon {
+    width: 100%;
+    height: auto;
+    display: block;
+    color: var(--primary);
+  }
+
+  &__labels {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  &__range-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary); /* Using primary color for emphasis */
+    text-align: center;
+  }
+}

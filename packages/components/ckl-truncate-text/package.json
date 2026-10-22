@@ -1,0 +1,25 @@
+{
+  "name": "@components-kit/ckl-truncate-text",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "module": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./src": "./src/index.js"
+  },
+  "scripts": {
+    "build": "kit-cli build",
+    "test": "kit-cli test",
+    "test:watch": "kit-cli test --watch",
+    "lint": "eslint src"
+  },
+  "devDependencies": {
+    "@components-kit/components-kit": "*",
+    "eslint-config-components": "^1.0.0"
+  },
+  "private": true,
+  "main": "./src/index.js"
+}

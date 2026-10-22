@@ -1,0 +1,43 @@
+{
+  "name": "storybook",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "storybook dev -p 6006 --no-open",
+    "build": "storybook build",
+    "lint": "eslint ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@components-kit/assets": "*",
+    "@components-kit/ckl-badge": "*",
+    "@components-kit/ckl-barometer-chart": "*",
+    "@components-kit/ckl-breadcrumb": "*",
+    "@components-kit/ckl-carousel": "*",
+    "@components-kit/ckl-horizontal-tabs": "*",
+    "@components-kit/ckl-icon": "*",
+    "@components-kit/ckl-loader": "*",
+    "@components-kit/ckl-pagination": "*",
+    "@components-kit/ckl-progress-bar": "*",
+    "@components-kit/ckl-side-nav": "*",
+    "@components-kit/ckl-slides": "*",
+    "@components-kit/ckl-tooltip": "*",
+    "@components-kit/ckl-truncate-text": "*",
+    "@components-kit/ckl-vertical-tabs": "*"
+  },
+  "devDependencies": {
+    "@storybook/addon-designs": "^12.0.0",
+    "@storybook/addon-docs": "^10.6.3",
+    "@storybook/vue3": "^10.6.3",
+    "@storybook/vue3-vite": "^10.6.3",
+    "@vitejs/plugin-vue": "^6.0.3",
+    "eslint-config-components": "^1.0.0",
+    "storybook": "^10.6.3",
+    "vite-svg-loader": "^5.1.0"
+  }
+}

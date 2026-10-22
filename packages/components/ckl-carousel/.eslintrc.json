@@ -1,0 +1,10 @@
+{
+  "root": true,
+  "extends": ["components"],
+  "overrides": [
+    {
+      "files": ["*.vue", "*.js"],
+      "rules": {}
+    }
+  ]
+}

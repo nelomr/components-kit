@@ -1,0 +1,7 @@
+<svg viewBox="-5.77344 -20.4885 11.54688 40.977" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+  <!-- Arrow centered at (0,0) to allow rotation around its geometric center. -->
+  <path
+    d="M5.773-10.4885H1v23.103A4.002 4.002 0 0 1 0 20.4885a4 4 0 0 1-1-7.874v-23.103h-4.773l5.773-10z"
+    fill="currentColor"
+  />
+</svg>

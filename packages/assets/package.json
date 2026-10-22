@@ -1,0 +1,18 @@
+{
+  "name": "@components-kit/assets",
+  "version": "1.0.0",
+  "description": "Component kit UI assets and icons",
+  "type": "module",
+  "private": true,
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./src": "./src/index.js",
+    "./style": "./src/components/ial-icon/ial-icon.scss"
+  },
+  "dependencies": {
+    "vue": "^3.2.45"
+  },
+  "license": "MIT"
+}

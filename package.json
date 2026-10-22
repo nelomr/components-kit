@@ -1,0 +1,50 @@
+{
+  "name": "components-kit",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "prepare": "husky install",
+    "lint": "lerna run lint",
+    "test": "lerna run test",
+    "build": "lerna run build",
+    "graph": "nx graph",
+    "lerna": "lerna",
+    "lerna:version": "lerna version --no-private --no-push",
+    "publish:package": "echo 'Example publish command: lerna publish --dry-run' && lerna publish --dry-run",
+    "internal:publish:package": "echo 'Publishing disabled for this template repository'",
+    "lerna:clean": "lerna clean",
+    "storybook:dev": "yarn --cwd apps/storybook dev"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
+    "husky": "^8.0.3",
+    "lerna": "^6.6.1",
+    "lint-staged": "^13.2.2",
+    "nx": "^16.0.1"
+  },
+  "workspaces": {
+    "packages": [
+      "apps/storybook",
+      "packages/assets",
+      "packages/components/*",
+      "packages/eslint-config-components",
+      "packages/components-kit"
+    ]
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "lint-staged": {
+    "**/*.{js,vue}": [
+      "eslint"
+    ],
+    "**/*.{vue,css,scss}": [
+      "stylelint --no-fix"
+    ]
+  },
+  "dependencies": {
+    "@humanwhocodes/object-schema": "^2.0.2"
+  }
+}
