@@ -4,45 +4,43 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "prepare": "husky install",
-    "lint": "lerna run lint",
-    "test": "lerna run test",
-    "build": "lerna run build",
+    "prepare": "vp hooks enable",
+    "lint": "vp lint",
+    "fmt": "vp fmt",
+    "fmt:check": "vp fmt --check",
+    "check": "vp check",
+    "test": "vp run -r test",
+    "build": "vp run -r build",
     "graph": "nx graph",
     "lerna": "lerna",
     "lerna:version": "lerna version --no-private --no-push",
     "publish:package": "echo 'Publishing is disabled: all packages in this repository are private'",
     "internal:publish:package": "echo 'Publishing disabled for this template repository'",
     "lerna:clean": "lerna clean",
-    "storybook:dev": "yarn --cwd apps/storybook dev"
+    "storybook:dev": "pnpm --filter storybook dev"
   },
+  "packageManager": "pnpm@11.28.4",
   "devDependencies": {
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
-    "husky": "^8.0.3",
     "lerna": "^10.1.1",
-    "lint-staged": "^15.4.3",
-    "nx": "^23.3.0"
+    "nx": "^23.3.0",
+    "vite-plus": "catalog:"
   },
   "workspaces": {
     "packages": [
       "apps/storybook",
       "packages/assets",
       "packages/components/*",
-      "packages/eslint-config-components",
       "packages/components-kit"
     ]
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "lint-staged": {
-    "**/*.{js,vue}": [
-      "eslint"
-    ],
-    "**/*.{vue,css,scss}": [
-      "stylelint --no-fix"
-    ]
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=11.0.0"
   },
   "dependencies": {
     "@humanwhocodes/object-schema": "^2.0.2"

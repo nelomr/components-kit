@@ -1,12 +1,13 @@
-import { defineConfig } from 'vite';
+import { defineConfig, lazyPlugins } from 'vite-plus';
 import vue from '@vitejs/plugin-vue';
-import eslint from 'vite-plugin-eslint';
 import svgLoader from 'vite-svg-loader';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
+const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig(() => {
@@ -17,14 +18,16 @@ export default defineConfig(() => {
     resolve: {
       alias: {
         '@packages': path.resolve(__dirname, '..'),
+        '@components-kit/assets': path.resolve(__dirname, '../assets/src/index.js'),
+        '@vue/test-utils': require.resolve('@vue/test-utils'),
+        vue: require.resolve('vue'),
       },
     },
-    plugins: [
+    plugins: lazyPlugins(() => [
       vue(),
-      eslint({ include: ['src/**/*.{js,vue}'] }),
       cssInjectedByJsPlugin({ styleId: packageName }),
       svgLoader(),
-    ],
+    ]),
     css: {
       postcss: {
         plugins: [autoprefixer],
@@ -55,6 +58,11 @@ export default defineConfig(() => {
     },
     cacheDir: path.resolve(__dirname, '../../node_modules'),
     test: {
+      // Vitest v4 compatibility: preserve mock call history.
+      // Remove after tests no longer rely on calls from setup or earlier tests.
+      // https://viteplus.dev/guide/vitest-v5#remove-unneeded-compatibility-settings
+      // https://vitest.dev/guide/migration/#clearmocks-is-enabled-by-default
+      clearMocks: false,
       globals: true,
       setupFiles: [testUtilsSetupPath],
       environment: 'jsdom',

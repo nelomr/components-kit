@@ -14,11 +14,13 @@
     "build": "kit-cli build",
     "test": "kit-cli test",
     "test:watch": "kit-cli test --watch",
-    "lint": "eslint src"
+    "lint": "vp lint src"
+  },
+  "dependencies": {
+    "@components-kit/assets": "*"
   },
   "devDependencies": {
-    "@components-kit/components-kit": "*",
-    "eslint-config-components": "^1.0.0"
+    "@components-kit/components-kit": "*"
   },
   "private": true,
   "main": "./src/index.js"

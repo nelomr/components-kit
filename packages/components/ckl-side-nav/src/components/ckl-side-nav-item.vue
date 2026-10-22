@@ -80,7 +80,8 @@ const enter = (element) => {
   element.style.visibility = null;
   element.style.height = 0;
 
-  getComputedStyle(element).height;
+  // Force browser reflow to apply initial height before animating
+  void getComputedStyle(element).height;
 
   requestAnimationFrame(() => {
     element.style.height = height;
@@ -95,7 +96,8 @@ const leave = (element) => {
   const height = getComputedStyle(element).height;
 
   element.style.height = height;
-  getComputedStyle(element).height;
+  // Force browser reflow
+  void getComputedStyle(element).height;
 
   requestAnimationFrame(() => {
     element.style.height = 0;

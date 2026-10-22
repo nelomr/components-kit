@@ -63,7 +63,6 @@ const rangeStart = computed(() => {
   );
 });
 
-// eslint-disable-next-line
 const buildRange = (start, length) => Array(length).fill(start).map((x, y) => x + y);
 
 const floatingRange = computed(() => {

@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url';
 import vue from '@vitejs/plugin-vue';
 import svgLoader from 'vite-svg-loader';
 
@@ -26,7 +27,8 @@ const config = {
     return mergeConfig(config, {
       resolve: {
         alias: {
-          '@packages': new URL('../../../packages', import.meta.url).pathname
+          '@packages': new URL('../../../packages', import.meta.url).pathname,
+          vue: fileURLToPath(import.meta.resolve('vue/dist/vue.esm-bundler.js')),
         }
       },
       plugins: [vue(), svgLoader()],

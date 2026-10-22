@@ -2,13 +2,13 @@
   @include default-styles(tooltip, (
       arrow-size: 5px,
       offset: #{0px},
-      background-color: var(--primary-500),
-      color: var(--white),
-      padding: 4px 8px,
+      background-color: var(--primary-500, #244A8A),
+      color: var(--white, #ffffff),
+      padding: 6px 10px,
       border: none,
       border-radius: 4px,
       font-size: 12px,
-      font-weight: normal,
+      font-weight: 500,
       min-width: max-content,
       max-width: auto,
       z-index: 10,
@@ -24,6 +24,8 @@
   display: inline-block;
 
   &__container {
+    @include ckl-tooltip-default-styles;
+
     position: absolute;
     border: var(--border);
     padding: var(--padding);
@@ -31,11 +33,13 @@
     font-size: var(--font-size);
     font-weight: var(--font-weight);
     color: var(--color);
-    z-index: var(--z-index);;
+    z-index: var(--z-index);
     background-color: var(--background-color);
     min-width: var(--min-width);
     max-width: var(--max-width);
-    transition: opacity 0.3s;
+    transition: opacity 0.2s ease;
+    line-height: 1.4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
     &--is-in-body {
       @include ckl-tooltip-default-styles;
@@ -57,31 +61,31 @@
     &--color {
       &-primary {
         @include override-styles(tooltip, (
-          background-color: var(--primary-500)
+          background-color: var(--primary-500, #244A8A)
         ));
       }
 
       &-success {
         @include override-styles(tooltip, (
-          background-color: var(--success-500)
+          background-color: var(--success-500, #10B981)
         ));
       }
 
       &-info {
         @include override-styles(tooltip, (
-          background-color: var(--info-500)
+          background-color: var(--info-500, #38BDF8)
         ));
       }
 
       &-error {
         @include override-styles(tooltip, (
-          background-color: var(--error-500)
+          background-color: var(--error-500, #EF4444)
         ));
       }
 
       &-warning {
         @include override-styles(tooltip, (
-          background-color: var(--warning-500)
+          background-color: var(--warning-500, #F59E0B)
         ));
       }
     }

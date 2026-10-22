@@ -5,8 +5,8 @@
 ### Core Monorepo Tooling Engine & CLI
 
 [![Node.js](https://img.shields.io/badge/Node.js-20%2B-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Vite 5](https://img.shields.io/badge/Vite-5.x-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
-[![Vitest 2](https://img.shields.io/badge/Vitest-2.x-6E9F18?style=flat-square&logo=vitest&logoColor=white)](https://vitest.dev/)
+[![Vite+](https://img.shields.io/badge/Vite+-1.3-646CFF?style=flat-square&logo=vite&logoColor=white)](https://viteplus.dev/)
+[![Vitest 5](https://img.shields.io/badge/Vitest-5.x-6E9F18?style=flat-square&logo=vitest&logoColor=white)](https://vitest.dev/)
 [![CLI](https://img.shields.io/badge/CLI-kit--cli-blueviolet?style=flat-square)](./cli/index.mjs)
 
 <br/>

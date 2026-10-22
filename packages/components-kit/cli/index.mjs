@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import { build } from 'vite';
-import { startVitest } from 'vitest/node';
+import { startVitest } from 'vite-plus/test/node';
 
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
@@ -30,4 +30,5 @@ const testCommand = async (argv) => {
 
 yargs(hideBin(process.argv))
   .command('build', 'build component', () => {}, buildCommand)
-  .command('test', 'run tests', () => {}, testCommand).argv;
+  .command('test', 'run tests', () => {}, testCommand)
+  .parse();

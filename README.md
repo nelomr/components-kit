@@ -4,15 +4,16 @@
 
 ### Vue 3 UI Component Library
 
-A high-performance, modular monorepo engineered with **Vue 3**, **Vite 5**, **Storybook 10**, **Lerna 10**, and **Nx 23**.
+A high-performance, modular monorepo engineered with **Vue 3**, **Vite+ (Rolldown)**, **Storybook 10**, **pnpm 11**, **Lerna 10**, and **Nx 23**.
 
 [![Vue.js 3](https://img.shields.io/badge/Vue.js-3.x-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)](https://vuejs.org/)
-[![Vite 5](https://img.shields.io/badge/Vite-5.x-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
+[![Vite+](https://img.shields.io/badge/Vite+-1.3-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://viteplus.dev/)
 [![Storybook 10](https://img.shields.io/badge/Storybook-10.6-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](https://storybook.js.org/)
-[![Vitest 2](https://img.shields.io/badge/Vitest-2.x-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
+[![Vitest 5](https://img.shields.io/badge/Vitest-5.x-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
+[![pnpm](https://img.shields.io/badge/pnpm-11.28-F69220?style=for-the-badge&logo=pnpm&logoColor=white)](https://pnpm.io/)
 [![Lerna 10](https://img.shields.io/badge/Lerna-10.1-9333EA?style=for-the-badge&logo=lerna&logoColor=white)](https://lerna.js.org/)
 [![Nx 23](https://img.shields.io/badge/Nx-23.3-143055?style=for-the-badge&logo=nx&logoColor=white)](https://nx.dev/)
-[![Node.js](https://img.shields.io/badge/Node.js-20%20%7C%2022%20%7C%2024-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D24-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](./LICENSE)
 
 <br/>
@@ -21,8 +22,9 @@ A high-performance, modular monorepo engineered with **Vue 3**, **Vite 5**, **St
 [**Quick Start**](#-quick-start) •
 [**Storybook 10**](#-storybook-workbench) •
 [**Architecture**](#-architecture) •
-[**Lerna 10 Guide**](./docs/MONOREPO_GUIDE.md) •
-[**Component Theming**](#-theming--customization) •
+[**Vite+ Guide**](./docs/VITE_PLUS_GUIDE.md) •
+[**Monorepo Guide**](./docs/MONOREPO_GUIDE.md) •
+[**Theming**](#-theming--customization) •
 [**Contributing**](#-contributing--standards)
 
 ---
@@ -38,7 +40,7 @@ A high-performance, modular monorepo engineered with **Vue 3**, **Vite 5**, **St
   <tr>
     <td width="33%" valign="top">
       <h4>⚡ Instant DX & HMR</h4>
-      <p>Powered by <b>Vite 5</b> and <b>Storybook 10</b> with sub-second cold starts (~400ms) and instant hot module replacement.</p>
+      <p>Powered by <b>Vite+ (Rolldown)</b> and <b>Storybook 10</b> with sub-second cold starts (~300ms) and instant hot module replacement.</p>
     </td>
     <td width="33%" valign="top">
       <h4>🧩 Atomic Workspaces</h4>
@@ -94,14 +96,14 @@ Each component lives as an independent workspace in [`packages/components/`](./p
 <a id="architecture"></a>
 ## 🏛 Architecture
 
-Components Kit is architected as a **modular monorepo** using **Yarn Workspaces**, **Lerna**, and **Nx**. Every component is completely autonomous, independently publishable, and styled with configurable CSS custom properties.
+Components Kit is architected as a **modular monorepo** using **pnpm Workspaces**, **Lerna 10**, **Nx 23**, and **Vite+** (powered by Rolldown). Every component is completely autonomous, independently publishable, and styled with configurable CSS custom properties.
 
 ### 📐 System Architecture Diagram
 
 ```mermaid
 graph TD
     subgraph L1 ["🚀 Layer 1: Consumption & Workbench"]
-        SB["<b>apps/storybook</b><br/>Storybook 10.6 + Vite 5<br/><i>Interactive Documentation & Sandbox</i>"]
+        SB["<b>apps/storybook</b><br/>Storybook 10.6 + Vite+ (Rolldown)<br/><i>Interactive Documentation & Sandbox</i>"]
         EXT["<b>Consumer Applications</b><br/><i>External Vue 3 projects</i>"]
     end
 
@@ -127,7 +129,7 @@ graph TD
     subgraph L4 ["⚙️ Layer 4: Build Engine & Quality Automation"]
         direction LR
         CLI["<b>@components-kit/components-kit</b><br/>kit-cli: Vite + Vitest unified runner"]
-        ESL["<b>eslint-config-components</b><br/>Shared linting & formatting standards"]
+        VP["<b>Vite+ Native Toolchain</b><br/>Oxlint & Oxfmt (< 700ms)"]
         NX["<b>Lerna + Nx Engine</b><br/>Computation caching & workspace orchestration"]
     end
 
@@ -138,7 +140,7 @@ graph TD
     L2 -->|imports handlers| HLP
     CLI -.->|compiles ESM & executes Vitest| L2
     NX -.->|computes hash & parallelizes tasks| L2
-    ESL -.->|enforces syntax & style| L2
+    VP -.->|enforces syntax & format| L2
 
     classDef appLayer fill:#eff6ff,stroke:#3b82f6,stroke-width:1.5px,color:#1e3a8a,rx:8px,ry:8px;
     classDef compLayer fill:#f8fafc,stroke:#64748b,stroke-width:1.5px,color:#0f172a,rx:8px,ry:8px;
@@ -148,7 +150,7 @@ graph TD
     class SB,EXT appLayer;
     class C1,C2,C3,C4,C5,C6,C7,C8 compLayer;
     class AST,STY,HLP foundLayer;
-    class CLI,ESL,NX toolLayer;
+    class CLI,VP,NX toolLayer;
 ```
 
 ---
@@ -184,10 +186,10 @@ graph TD
 
 | Layer | Workspace Location | Purpose & Responsibilities | Key Technologies |
 | :--- | :--- | :--- | :--- |
-| **🚀 Layer 1: Apps** | [`apps/storybook`](./apps/storybook) | Interactive component playground, live controls, visual regression sandbox, and MDX documentation. | Storybook 10, Vite 5, MDX 3 |
+| **🚀 Layer 1: Apps** | [`apps/storybook`](./apps/storybook) | Interactive component playground, live controls, visual regression sandbox, and MDX documentation. | Storybook 10, Vite+, MDX 3 |
 | **🧩 Layer 2: Components** | [`packages/components/*`](./packages/components) | 14 atomic, accessible UI components. Fully tree-shakeable with zero cross-dependencies. | Vue 3 Composition API, Dart Sass, ARIA 1.2 |
 | **💎 Layer 3: Foundations** | [`packages/assets`](./packages/assets)<br/>[`packages/styles`](./packages/styles)<br/>[`packages/helpers`](./packages/helpers) | Shared icon registry (`IalIcon`), styling mixins (`default-styles`), and DOM utility functions (`on-click-outside`). | SVG Factory, SCSS Mixins, Vanilla JS |
-| **⚙️ Layer 4: Tooling** | [`packages/components-kit`](./packages/components-kit)<br/>[`packages/eslint-config-components`](./packages/eslint-config-components) | Central CLI runner (`kit-cli`) orchestrating Vite builds, Vitest runs, and shared linting standards. | Lerna 10, Nx 23, Vitest, Rollup, ESLint |
+| **⚙️ Layer 4: Tooling** | [`packages/components-kit`](./packages/components-kit) | Central CLI runner (`kit-cli`) orchestrating Vite builds, Vitest runs, and Vite+ unified quality standards. | Vite+ 1.3, Vitest 5, Oxlint, Oxfmt, Rolldown |
 
 ---
 
@@ -214,7 +216,6 @@ components-kit/
 │   │   ├── ckl-tooltip/               # 💬 Floating tooltip with Teleport positioning
 │   │   ├── ckl-truncate-text/         # ✂️ Line-clamped text with auto-tooltip
 │   │   └── ckl-vertical-tabs/         # 📑 Stacked vertical tabs with state flags
-│   ├── eslint-config-components/      # 🛡️ Shared ESLint & Stylelint configuration
 │   ├── helpers/                       # 🔧 DOM event utilities (e.g. click-outside)
 │   ├── components-kit/                # ⚡ Central CLI build & test runner (kit-cli)
 │   └── styles/                        # 🎨 SCSS styling mixins (default-styles & override-styles)
@@ -226,8 +227,8 @@ components-kit/
 
 ### 1. Prerequisites
 
-- **Node.js**: `>= 20.0.0` (Verified on Node 20 LTS, 22 LTS, and 24 Current)
-- **Yarn**: `v1.22.x`
+- **Node.js**: `>= 24.0.0` (Strictly required; Node 20 and Node 22 are **not supported**)
+- **pnpm**: `v11.x` (or `v10.x`)
 
 ### 2. Installation
 
@@ -236,7 +237,7 @@ Clone the repository and install all workspace dependencies:
 ```bash
 git clone https://github.com/your-org/components-kit.git
 cd components-kit
-yarn install
+pnpm install
 ```
 
 ### 3. Launch Storybook
@@ -244,7 +245,7 @@ yarn install
 Start the interactive component catalog with instant HMR:
 
 ```bash
-yarn storybook:dev
+pnpm storybook:dev
 ```
 
 Open your browser at **`http://localhost:6006`** to explore stories, test controls, and inspect interactive documentation.
@@ -253,19 +254,19 @@ Open your browser at **`http://localhost:6006`** to explore stories, test contro
 
 ## 📖 Storybook Workbench
 
-The repository includes a modern **Storybook 10.6** environment tailored for Vue 3 and Vite:
+The repository includes a modern **Storybook 10.6** environment tailored for Vue 3 and Vite+:
 
-- ⚡ **Lightning-Fast Startup**: Boots in ~400ms without cold-start lag.
+- ⚡ **Lightning-Fast Startup**: Powered by Vite+ and Rolldown for near-instant builds.
 - 🎨 **Component Theming**: Interactive color variables and component theme testing directly in stories.
 - 📝 **Auto-Generated Docs**: Prop tables, event listeners, and slot descriptions auto-extracted via `experimentalDocgenServer`.
 - 🛡️ **Zero AppleScript Popups**: Pre-configured with `--no-open` to prevent macOS TCC permission errors (`-1743`).
 
 ```bash
 # Start development workbench
-yarn storybook:dev
+pnpm storybook:dev
 
 # Build static production documentation
-yarn --cwd apps/storybook build
+pnpm --filter storybook build
 ```
 
 ---
@@ -276,13 +277,15 @@ All workspace operations are accessible via unified root commands:
 
 | Command                | Action               | Description                                                |
 | :--------------------- | :------------------- | :--------------------------------------------------------- |
-| `yarn storybook:dev`   | **Dev Server**       | Launches Storybook 10 on port 6006 with instant Vite HMR   |
-| `yarn test`            | **Unit Tests**       | Runs Vitest across all 14 component suites in parallel     |
-| `yarn build`           | **Production Build** | Builds all component libraries into ESM distributions      |
-| `yarn lint`            | **Code Quality**     | Runs ESLint and Stylelint analysis across all packages     |
-| `yarn graph`           | **Dependency Graph** | Generates an interactive visual graph of monorepo packages |
-| `yarn lerna:version`   | **Version Bump**     | Interactively updates independent package versions         |
-| `yarn publish:package` | **Publishing Guard** | Notifies that all monorepo packages are private            |
+| `pnpm storybook:dev`   | **Dev Server**       | Launches Storybook 10 on port 6006 with instant Vite+ HMR  |
+| `pnpm test`            | **Unit Tests**       | Runs Vitest 5 across all 14 component suites in parallel (`vp run -r test`) |
+| `pnpm build`           | **Production Build** | Builds all component libraries into ESM via Rolldown (`vp run -r build`) |
+| `pnpm lint`            | **Code Quality**     | Runs Oxlint scan across all 76 files in < 700ms (`vp lint`) |
+| `pnpm fmt`             | **Code Formatting**  | Formats files using Oxfmt (`vp fmt`)                       |
+| `pnpm check`           | **Unified Gate**     | Runs linting, formatting, and type checks in a single pass (`vp check`) |
+| `pnpm graph`           | **Dependency Graph** | Generates an interactive visual graph of monorepo packages |
+| `pnpm lerna:version`   | **Version Bump**     | Interactively updates independent package versions         |
+| `pnpm publish:package` | **Publishing Guard** | Notifies that all monorepo packages are private            |
 
 ---
 
@@ -383,14 +386,14 @@ Unit and integration tests are powered by **Vitest** and `@vue/test-utils`:
 
 ```bash
 # Run all tests in parallel
-yarn test
+pnpm test
 
 # Run tests in watch mode for active development
-yarn --cwd packages/components/ckl-carousel test --watch
+pnpm --filter @components-kit/ckl-carousel test:watch
 ```
 
 > [!TIP]
-> Monorepo test executions are accelerated by **Nx computation caching**. If a component and its dependencies have not changed, tests return instantly from cache.
+> Monorepo test executions are accelerated by **Nx computation caching** and Vite+ Rolldown transforms. If a component and its dependencies have not changed, tests return instantly from cache.
 
 ---
 
@@ -399,8 +402,8 @@ yarn --cwd packages/components/ckl-carousel test --watch
 We enforce strict quality and commit conventions across all pull requests:
 
 - **Conventional Commits**: Format commit messages as `type(scope): description` (e.g. `feat(ckl-carousel): add touch swipe support`).
-- **Code Style**: Run `yarn lint` prior to submitting changes.
-- **Test Integrity**: Ensure all 42 tests pass with `yarn test`.
+- **Code Style**: Run `pnpm lint` (or `pnpm vp check`) prior to submitting changes.
+- **Test Integrity**: Ensure all tests pass with `pnpm test`.
 
 ---
 

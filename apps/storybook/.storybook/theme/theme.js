@@ -3,10 +3,18 @@ import { create } from 'storybook/theming';
 export default create({
   base: 'light',
 
-  colorPrimary: '#647B99',
+  colorPrimary: '#244A8A',
   colorSecondary: '#244A8A',
 
-  fontBase: '"Open Sans", sans-serif',
+  appBg: '#F8FAFC',
+  appContentBg: '#FFFFFF',
+  appPreviewBg: '#FFFFFF',
+
+  textColor: '#0F172A',
+  textInverseColor: '#FFFFFF',
+
+  fontBase: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Open Sans", sans-serif',
+  fontCode: 'ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace',
 
   brandTitle: 'Components Kit',
 });

@@ -5,7 +5,6 @@ export default {
 </script>
 
 <script setup>
-// eslint-disable-next-line import/no-unresolved
 import { CklTooltip } from "@components-kit/ckl-tooltip";
 import { IalIcon } from "@components-kit/assets";
 

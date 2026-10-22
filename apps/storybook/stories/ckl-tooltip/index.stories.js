@@ -57,15 +57,22 @@ export default {
 };
 
 export const Primary = {
+  args: {
+    text: "This is a helpful tooltip message",
+    position: "top",
+    color: "primary",
+    trigger: "manual",
+    visible: true,
+  },
   render: (args) => ({
     components: { CklTooltip },
     setup() {
       return { args };
     },
     template: `
-      <div style="padding: 80px; display: flex; justify-content: center; align-items: center;">
+      <div style="padding: 100px; display: flex; justify-content: center; align-items: center;">
         <ckl-tooltip v-bind="args">
-          <button style="padding: 10px 20px; border-radius: 6px; background: #244A8A; color: white; border: none; cursor: pointer; font-size: 14px;">
+          <button style="padding: 12px 24px; border-radius: 8px; background: #244A8A; color: white; border: none; cursor: pointer; font-size: 14px; font-weight: 600; box-shadow: 0 2px 4px rgba(36, 74, 138, 0.2);">
             Target Element
           </button>
         </ckl-tooltip>
@@ -78,18 +85,18 @@ export const Positions = {
   render: () => ({
     components: { CklTooltip },
     template: `
-      <div style="display: flex; gap: 32px; padding: 60px; justify-content: center;">
-        <ckl-tooltip text="Tooltip Top" position="top">
-          <button style="padding: 8px 16px; cursor: pointer;">Top</button>
+      <div style="display: flex; gap: 48px; padding: 120px 60px; justify-content: center; flex-wrap: wrap;">
+        <ckl-tooltip text="Tooltip on Top" position="top" trigger="manual" :visible="true">
+          <button style="padding: 10px 20px; border-radius: 8px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer; font-weight: 600;">Top</button>
         </ckl-tooltip>
-        <ckl-tooltip text="Tooltip Bottom" position="bottom">
-          <button style="padding: 8px 16px; cursor: pointer;">Bottom</button>
+        <ckl-tooltip text="Tooltip on Bottom" position="bottom" trigger="manual" :visible="true">
+          <button style="padding: 10px 20px; border-radius: 8px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer; font-weight: 600;">Bottom</button>
         </ckl-tooltip>
-        <ckl-tooltip text="Tooltip Left" position="left">
-          <button style="padding: 8px 16px; cursor: pointer;">Left</button>
+        <ckl-tooltip text="Tooltip on Left" position="left" trigger="manual" :visible="true">
+          <button style="padding: 10px 20px; border-radius: 8px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer; font-weight: 600;">Left</button>
         </ckl-tooltip>
-        <ckl-tooltip text="Tooltip Right" position="right">
-          <button style="padding: 8px 16px; cursor: pointer;">Right</button>
+        <ckl-tooltip text="Tooltip on Right" position="right" trigger="manual" :visible="true">
+          <button style="padding: 10px 20px; border-radius: 8px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer; font-weight: 600;">Right</button>
         </ckl-tooltip>
       </div>
     `,
@@ -100,13 +107,42 @@ export const Colors = {
   render: () => ({
     components: { CklTooltip },
     setup() {
-      const colors = ["primary", "success", "error", "warning", "info"];
+      const colors = [
+        { name: "primary", hex: "#244A8A" },
+        { name: "success", hex: "#10B981" },
+        { name: "error", hex: "#EF4444" },
+        { name: "warning", hex: "#F59E0B" },
+        { name: "info", hex: "#38BDF8" },
+      ];
       return { colors };
     },
     template: `
-      <div style="display: flex; gap: 24px; padding: 60px; flex-wrap: wrap; justify-content: center;">
-        <ckl-tooltip v-for="color in colors" :key="color" :text="'Color: ' + color" :color="color" position="top">
-          <button style="padding: 8px 16px; cursor: pointer; text-transform: capitalize;">{{ color }}</button>
+      <div style="display: flex; gap: 36px; padding: 120px 40px 60px; flex-wrap: wrap; justify-content: center; align-items: center;">
+        <ckl-tooltip
+          v-for="item in colors"
+          :key="item.name"
+          :text="'Tooltip ' + item.name"
+          :color="item.name"
+          position="top"
+          trigger="manual"
+          :visible="true"
+        >
+          <button
+            :style="{
+              padding: '10px 20px',
+              borderRadius: '8px',
+              border: '2px solid ' + item.hex,
+              background: '#ffffff',
+              color: item.hex,
+              fontWeight: '600',
+              fontSize: '14px',
+              cursor: 'pointer',
+              textTransform: 'capitalize',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.04)',
+            }"
+          >
+            {{ item.name }}
+          </button>
         </ckl-tooltip>
       </div>
     `,
@@ -114,12 +150,24 @@ export const Colors = {
 };
 
 export const ClickTrigger = {
-  render: () => ({
+  args: {
+    text: "Click outside to dismiss",
+    trigger: "click",
+    position: "top",
+    color: "success",
+    attachToBody: false,
+    noPadding: false,
+    disabled: false,
+  },
+  render: (args) => ({
     components: { CklTooltip },
+    setup() {
+      return { args };
+    },
     template: `
-      <div style="padding: 60px;">
-        <ckl-tooltip text="Click outside to dismiss" trigger="click" position="top">
-          <button style="padding: 8px 16px; background: #00a884; color: white; border: none; border-radius: 6px; cursor: pointer;">
+      <div style="padding: 80px; display: flex; justify-content: center; align-items: center;">
+        <ckl-tooltip v-bind="args">
+          <button style="padding: 10px 20px; background: #10B981; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);">
             Click Me
           </button>
         </ckl-tooltip>
@@ -129,16 +177,29 @@ export const ClickTrigger = {
 };
 
 export const RichContentSlot = {
-  render: () => ({
+  args: {
+    color: "primary",
+    position: "bottom",
+    trigger: "hover",
+    attachToBody: false,
+    noPadding: false,
+    disabled: false,
+  },
+  render: (args) => ({
     components: { CklTooltip },
+    setup() {
+      return { args };
+    },
     template: `
-      <div style="padding: 60px;">
-        <ckl-tooltip position="bottom">
-          <button style="padding: 8px 16px; cursor: pointer;">Rich Content</button>
+      <div style="padding: 80px; display: flex; justify-content: center; align-items: center;">
+        <ckl-tooltip v-bind="args">
+          <button style="padding: 10px 20px; border-radius: 8px; background: #244A8A; color: white; border: none; cursor: pointer; font-size: 14px; font-weight: 600; box-shadow: 0 2px 4px rgba(36, 74, 138, 0.2);">
+            Rich Content
+          </button>
           <template #tooltip>
-            <div style="padding: 4px; text-align: left;">
-              <strong style="display: block; margin-bottom: 4px;">Important Notice</strong>
-              <span>Custom HTML with links, icons, and styling inside the tooltip.</span>
+            <div style="padding: 6px; text-align: left; max-width: 240px;">
+              <strong style="display: block; margin-bottom: 4px; font-size: 13px;">Important Notice</strong>
+              <span style="font-size: 12px; opacity: 0.95;">Custom HTML with links, icons, and styling inside the tooltip.</span>
             </div>
           </template>
         </ckl-tooltip>

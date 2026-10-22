@@ -5,7 +5,7 @@
 ### Interactive Component Explorer & Living Documentation
 
 [![Storybook 10](https://img.shields.io/badge/Storybook-10.6.3-FF4785?style=flat-square&logo=storybook&logoColor=white)](https://storybook.js.org/)
-[![Vite 5](https://img.shields.io/badge/Vite-5.x-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
+[![Vite+](https://img.shields.io/badge/Vite+-1.3-646CFF?style=flat-square&logo=vite&logoColor=white)](https://viteplus.dev/)
 [![Vue 3](https://img.shields.io/badge/Vue-3.x-4FC08D?style=flat-square&logo=vue.js&logoColor=white)](https://vuejs.org/)
 [![Port](https://img.shields.io/badge/Port-6006-blue?style=flat-square)](http://localhost:6006)
 
@@ -23,11 +23,11 @@
 
 ## ✦ Overview
 
-The Storybook workspace serves as the **isolated component workbench** and **visual living styleguide** for Components Kit. Powered by **Storybook 10** and **Vite 5**, it provides an ultra-fast feedback loop for UI development, accessibility auditing, and design QA.
+The Storybook workspace serves as the **isolated component workbench** and **visual living styleguide** for Components Kit. Powered by **Storybook 10** and **Vite+**, it provides an ultra-fast feedback loop for UI development, accessibility auditing, and design QA.
 
 ### Core Features
 
-- ⚡ **Instant HMR**: Cold start in ~400ms powered by Vite's native ES module pipeline.
+- ⚡ **Instant HMR**: Cold start in ~300ms powered by Vite+ and Rolldown's native ES module pipeline.
 - 🎨 **Storybook Color Palette**: SCSS and CSS custom property color palette (`colors.scss`).
 - 📚 **Automated Docs**: Auto-generated prop tables, slot interfaces, and event emitters via Vue docgen.
 - 🛡️ **Zero AppleScript Popups**: Configured with `--no-open` to avoid macOS permission dialogs (`-1743`).
@@ -43,10 +43,10 @@ From the repository root or within `apps/storybook`:
 
 ```bash
 # From repository root
-yarn storybook:dev
+pnpm storybook:dev
 
 # Or directly in this directory
-yarn dev
+pnpm dev
 ```
 
 Open your browser to:
@@ -144,7 +144,7 @@ Color variables configured for documentation and stories are loaded globally fro
 Generate a static, production-ready documentation site:
 
 ```bash
-yarn build
+pnpm build
 ```
 
 The output bundle is generated at `storybook-static/`, ready for hosting on GitHub Pages, Vercel, or AWS S3.

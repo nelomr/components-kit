@@ -1,0 +1,30 @@
+packages:
+  - 'apps/storybook'
+  - 'packages/assets'
+  - 'packages/components/*'
+  - 'packages/components-kit'
+
+linkWorkspacePackages: true
+preferWorkspacePackages: true
+
+overrides:
+  undici: ^7.29.1
+  postcss-selector-parser: ^7.1.6
+  vite@*: 'catalog:'
+  vitest@*: 'catalog:'
+
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  nx: true
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@1.3.0
+  vitest: 5.0.5
+  vite-plus: 1.3.0
+peerDependencyRules:
+  allowAny:
+    - vite
+    - vitest
+  allowedVersions:
+    vite: '*'
+    vitest: '*'

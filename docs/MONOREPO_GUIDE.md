@@ -4,10 +4,11 @@
 
 [![Lerna 10](https://img.shields.io/badge/Lerna-10.1-9333EA?style=for-the-badge&logo=lerna&logoColor=white)](https://lerna.js.org/)
 [![Nx 23](https://img.shields.io/badge/Nx-23.3-143055?style=for-the-badge&logo=nx&logoColor=white)](https://nx.dev/)
-[![Yarn Workspaces](https://img.shields.io/badge/Yarn-1.22-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white)](https://classic.yarnpkg.com/en/docs/workspaces/)
+[![pnpm Workspaces](https://img.shields.io/badge/pnpm-11.28-F69220?style=for-the-badge&logo=pnpm&logoColor=white)](https://pnpm.io/)
 [![Vue 3](https://img.shields.io/badge/Vue-3.x-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)](https://vuejs.org/)
-[![Vite 5](https://img.shields.io/badge/Vite-5.x-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
+[![Vite+](https://img.shields.io/badge/Vite+-1.3-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://viteplus.dev/)
 [![Storybook 10](https://img.shields.io/badge/Storybook-10.6-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](https://storybook.js.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D24-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 
 **Engineering guide, architecture overview, and developer workflows for Components Kit.**  
 *Everything you need to know from your initial `git clone` to authoring, testing, and releasing components.*
@@ -20,7 +21,7 @@
 
 1. [What is this Monorepo and How Does Lerna 10 Work?](#1-what-is-this-monorepo-and-how-does-lerna-10-work)
    - [The Lerna 10 + Nx Engine Alliance](#the-lerna-10--nx-engine-alliance)
-   - [How Yarn Workspaces Work](#how-yarn-workspaces-work)
+   - [How pnpm Workspaces Work](#how-pnpm-workspaces-work)
    - [The Power of Computation Caching](#the-power-of-computation-caching)
 2. [Interactive Dependency Graph](#2-interactive-dependency-graph)
 3. [Running Commands: Entire Monorepo vs. Single Package](#3-running-commands-entire-monorepo-vs-single-package)
@@ -58,9 +59,9 @@ In `components-kit`, we host:
 * **14 Atomic UI Component Libraries** (`packages/components/ckl-*`)
 * **1 Curated SVG Icon & Asset Package** (`packages/assets`)
 * **1 Shared SCSS Styling Mixins Package** (`packages/styles`)
-* **1 Unified Build & Test CLI** (`packages/components-kit`)
-* **1 Shared ESLint Configuration** (`packages/eslint-config-components`)
+* **1 Unified Build & Test Engine powered by Vite+ & Rolldown** (`packages/components-kit`)
 * **1 Visual Storybook 10 Application** (`apps/storybook`)
+* **Vite+ Unified Toolchain** (`vite.config.ts` powered by Oxlint, Oxfmt, Vitest 5, and Vite Task)
 
 ### The Lerna 10 + Nx Engine Alliance
 
@@ -68,12 +69,12 @@ Historically, Lerna executed tasks sequentially and suffered from performance bo
 
 ```mermaid
 flowchart TD
-    User["👨‍💻 Developer executes: yarn test"]
+    User["👨‍💻 Developer executes: pnpm test"]
     Lerna["📦 Lerna 10 (CLI & Versioning)"]
     Nx["⚡ Nx Engine (Task Orchestrator)"]
     Graph["🕸️ Project Dependency Graph"]
     Cache["💾 Computation Cache (.nx/cache)"]
-    Exec["🚀 Parallel Task Execution (8 concurrent workers)"]
+    Exec["🚀 Parallel Task Execution (Vite+ & Rolldown)"]
 
     User --> Lerna
     Lerna --> Nx
@@ -87,32 +88,38 @@ flowchart TD
 2. **Maximum Concurrency:** Tasks run across multiple parallel worker threads, fully utilizing all available CPU cores.
 3. **Clean Terminal Reporting:** Real-time visual progress spinners show the exact execution status of each workspace task.
 
+### System Requirements: Node.js >= 24 & pnpm 11
+
+> [!IMPORTANT]
+> **Node.js 24 Minimum Requirement**: This repository strictly requires **Node.js `>= 24.0.0`** and **pnpm `>= 11.0.0`**.
+> Legacy runtimes (**Node 20 and Node 22**) are **not supported** due to toolchain dependencies (Vite+ 1.3 / Rolldown / Storybook 10 native features).
+> Version enforcement is configured via `.nvmrc`, `.node-version`, and `"engine-strict=true"` in `.npmrc`.
+
 ---
 
-### How Yarn Workspaces Work
+### How pnpm Workspaces Work
 
-The root [package.json](file:///Users/nelo/proyectos/components-kit/package.json) defines our workspace package boundaries:
+The workspace structure is defined in [pnpm-workspace.yaml](file:///Users/nelo/proyectos/components-kit/pnpm-workspace.yaml):
 
-```json
-"workspaces": {
-  "packages": [
-    "apps/storybook",
-    "packages/assets",
-    "packages/components/*",
-    "packages/eslint-config-components",
-    "packages/components-kit"
-  ]
-}
+```yaml
+packages:
+  - 'apps/storybook'
+  - 'packages/assets'
+  - 'packages/components/*'
+  - 'packages/components-kit'
+
+linkWorkspacePackages: true
+preferWorkspacePackages: true
 ```
 
-#### The Superpower: Local Symlinks
+#### The Superpower: Local Symlinks & Strict Isolation
 When a component package needs to use icons from `@components-kit/assets`, its `package.json` specifies:
 ```json
 "dependencies": {
   "@components-kit/assets": "*"
 }
 ```
-Yarn **never downloads this from npm**: it creates a direct local filesystem symlink to `packages/assets`. When you edit an icon in `packages/assets`, all components and Storybook reflect the change instantly with sub-second Vite HMR!
+pnpm **never downloads this from npm**: it creates a direct local filesystem symlink to `packages/assets`. When you edit an icon in `packages/assets`, all components and Storybook reflect the change instantly with sub-second Vite+ HMR! Unlike legacy package managers, pnpm prevents "phantom dependencies" through content-addressable storage and isolated symlink trees.
 
 ---
 
@@ -147,7 +154,7 @@ Nx computes a **cryptographic hash** combining:
 > [!TIP]
 > If you ever need to bypass the cache and force a clean re-execution, append `--skip-nx-cache`:
 > ```bash
-> yarn build --skip-nx-cache
+> pnpm build --skip-nx-cache
 > ```
 
 ---
@@ -157,7 +164,7 @@ Nx computes a **cryptographic hash** combining:
 Want to visualize how packages in the monorepo depend on one another? Nx includes a built-in interactive graph viewer:
 
 ```bash
-yarn graph
+pnpm graph
 ```
 
 This launches a local web server in your browser where you can:
@@ -167,7 +174,7 @@ This launches a local web server in your browser where you can:
 
 To export the graph as a static JSON file (useful for CI/CD audit pipelines):
 ```bash
-yarn graph --file=dist/graph.json
+pnpm graph --file=dist/graph.json
 ```
 
 ---
@@ -180,10 +187,12 @@ These commands run across **every package in the monorepo** in parallel using th
 
 | Command | Action | Description |
 | :--- | :--- | :--- |
-| `yarn build` | **Build All** | Builds all 14 components and the Storybook app in topological order. |
-| `yarn test` | **Test All** | Executes all 28 Vitest test suites in parallel across the monorepo. |
-| `yarn lint` | **Lint All** | Runs ESLint and Stylelint across all 16 workspace projects. |
-| `yarn storybook:dev` | **Dev Environment** | Starts the interactive Storybook catalog at `http://localhost:6006`. |
+| `pnpm build` | **Build All** | Builds all 14 components and the Storybook app in topological order via Rolldown (`vp run -r build`). |
+| `pnpm test` | **Test All** | Executes all 28 Vitest 5 test suites in parallel across the monorepo (`vp run -r test`). |
+| `pnpm lint` | **Lint All** | Runs Oxlint across all files in the monorepo in < 700ms (`vp lint`). |
+| `pnpm fmt` | **Format All** | Formats code in place using Oxfmt (`vp fmt`). |
+| `pnpm check` | **Unified Check** | Runs formatting, linting, and type checking in a single pass (`vp check`). |
+| `pnpm storybook:dev` | **Dev Environment** | Starts the interactive Storybook catalog at `http://localhost:6006`. |
 
 ---
 
@@ -195,30 +204,30 @@ Suppose you are actively working on `ckl-badge`. You do not need to run tests or
 From the monorepo root:
 ```bash
 # Run tests only for ckl-badge
-yarn lerna run test --scope=@components-kit/ckl-badge
+pnpm lerna run test --scope=@components-kit/ckl-badge
 
 # Build only ckl-badge
-yarn lerna run build --scope=@components-kit/ckl-badge
+pnpm lerna run build --scope=@components-kit/ckl-badge
 
 # Lint only ckl-badge
-yarn lerna run lint --scope=@components-kit/ckl-badge
+pnpm lerna run lint --scope=@components-kit/ckl-badge
 ```
 
-#### Method 2: Via Yarn `--cwd` (Ideal for Watch Mode)
-Yarn lets you invoke any package's internal scripts directly:
+#### Method 2: Via pnpm `--filter` (Ideal for Watch Mode)
+pnpm lets you filter and invoke any package's internal scripts directly:
 ```bash
 # Watch mode: re-runs tests instantly as you modify code
-yarn --cwd packages/components/ckl-badge test:watch
+pnpm --filter @components-kit/ckl-badge test:watch
 
 # Build the package distribution directly
-yarn --cwd packages/components/ckl-badge build
+pnpm --filter @components-kit/ckl-badge build
 ```
 
 #### Method 3: Via Nx Direct Command
 Nx resolves workspace project names directly:
 ```bash
-yarn nx test @components-kit/ckl-badge
-yarn nx build @components-kit/ckl-badge
+pnpm nx test @components-kit/ckl-badge
+pnpm nx build @components-kit/ckl-badge
 ```
 
 ---
@@ -229,13 +238,13 @@ Lerna 10 provides flexible filtering options:
 
 ```bash
 # Run tasks ONLY on packages modified since the main branch
-yarn lerna run test --since=origin/main
+pnpm lerna run test --since=origin/main
 
 # Run tasks on matching packages using a wildcard
-yarn lerna run build --scope="@components-kit/ckl-*-tabs"
+pnpm lerna run build --scope="@components-kit/ckl-*-tabs"
 
 # Run tasks on all packages EXCEPT one
-yarn lerna run test --ignore=storybook
+pnpm lerna run test --ignore=storybook
 ```
 
 ---
@@ -255,7 +264,6 @@ mkdir -p packages/components/ckl-avatar/src
 The resulting package layout should match:
 ```text
 packages/components/ckl-avatar/
-├── .eslintrc.json
 ├── README.md
 ├── package.json
 └── src/
@@ -286,11 +294,10 @@ Create `packages/components/ckl-avatar/package.json`:
     "build": "kit-cli build",
     "test": "kit-cli test",
     "test:watch": "kit-cli test --watch",
-    "lint": "eslint src"
+    "lint": "vp lint src"
   },
   "devDependencies": {
-    "@components-kit/components-kit": "*",
-    "eslint-config-components": "^1.0.0"
+    "@components-kit/components-kit": "*"
   },
   "private": true,
   "license": "MIT"
@@ -298,15 +305,7 @@ Create `packages/components/ckl-avatar/package.json`:
 ```
 
 > [!NOTE]
-> Notice how `"@components-kit/components-kit": "*"` provides the central `kit-cli` tool (Vite + Vitest) without needing to configure bundlers from scratch.
-
-Add the standard ESLint configuration in `packages/components/ckl-avatar/.eslintrc.json`:
-```json
-{
-  "root": true,
-  "extends": ["components"]
-}
-```
+> Notice how `"@components-kit/components-kit": "*"` provides the central `kit-cli` tool (Vite + Vitest) without needing to configure bundlers from scratch, while linting is handled natively by Vite+ via `vp lint src` without requiring any local `.eslintrc.json` file.
 
 ---
 
@@ -491,7 +490,7 @@ To make your component available in the interactive workbench:
      ...
    }
    ```
-2. **Run `yarn install`** at the monorepo root so Yarn generates the local symlink.
+2. **Run `pnpm install`** at the monorepo root so pnpm generates the local workspace symlink.
 3. **Add the story in `apps/storybook/stories/ckl-avatar/index.stories.js`**:
 
 ```javascript
@@ -531,16 +530,16 @@ Verify your component against all monorepo quality standards:
 
 ```bash
 # 1. Run unit tests
-yarn lerna run test --scope=@components-kit/ckl-avatar
+pnpm lerna run test --scope=@components-kit/ckl-avatar
 
 # 2. Compile ESM bundle
-yarn lerna run build --scope=@components-kit/ckl-avatar
+pnpm lerna run build --scope=@components-kit/ckl-avatar
 
-# 3. Check code style with ESLint
-yarn lerna run lint --scope=@components-kit/ckl-avatar
+# 3. Check code style with Oxlint (Vite+)
+pnpm --filter @components-kit/ckl-avatar lint
 
 # 4. Preview in Storybook
-yarn storybook:dev
+pnpm storybook:dev
 ```
 
 ---
@@ -552,27 +551,27 @@ yarn storybook:dev
 If an individual component requires an external npm library (for example, `canvas-confetti`):
 
 ```bash
-# Syntax: yarn --cwd <package_directory> add <library>
-yarn --cwd packages/components/ckl-badge add canvas-confetti
+# Syntax: pnpm --filter <package_name> add <library>
+pnpm --filter @components-kit/ckl-badge add canvas-confetti
 ```
 
 ### Adding a Tool to the Monorepo Root
 
-When installing developer tooling that applies across the entire repository (linters, formatters, global scripts), always specify the `-W` flag (`--ignore-workspace-root-check`):
+When installing developer tooling that applies across the entire repository (linters, formatters, global scripts), always specify the `-w` flag (`--workspace-root`):
 
 ```bash
-# Syntax: yarn add -D -W <tool>
-yarn add -D -W prettier-plugin-tailwindcss
+# Syntax: pnpm add -D -w <tool>
+pnpm add -D -w prettier-plugin-tailwindcss
 ```
 
 ### Upgrading Existing Dependencies
 
 ```bash
 # Interactively review and upgrade dependencies across all workspaces
-yarn upgrade-interactive
+pnpm update -i --recursive
 
 # Upgrade a package within a single workspace
-yarn --cwd packages/assets upgrade
+pnpm --filter @components-kit/assets update
 ```
 
 ---
@@ -599,20 +598,110 @@ Lerna uses `git diff` against tags to detect exactly which folders changed, prop
 
 ---
 
-### Conventional Commits Enforcement
+### Quality & Commit Hooks (.vite-hooks/)
 
-The repository enforces **Husky + Commitlint** on every commit. Messages must follow the standard convention:
+Git hooks are managed natively via **Vite+ Hooks (`vp hooks`)**, eliminating the need for third-party managers like Husky:
+- **`pre-commit`** (`.vite-hooks/pre-commit`):
+  1. Runs `vp staged`: automatically runs Oxlint and Oxfmt on staged files, fixing formatting issues before commit.
+  2. Runs `vp run -r test`: verifies all unit tests across the 14 component packages pass (~1.8s) before allowing the commit.
+- **`commit-msg`** (`.vite-hooks/commit-msg`):
+  Executes **Commitlint** (`@commitlint/config-conventional`) to strictly enforce the Conventional Commits specification.
+
+---
+
+### Conventional Commits Specification & Rules
+
+Every commit message in this monorepo must adhere to the standard Conventional Commits structure:
 
 ```text
-type(scope): brief description in lowercase
+<type>(<scope>): <subject>
+
+[optional body: detailed explanation of the change]
+
+[optional footer: breaking changes or issue references]
 ```
 
-| Type | When to Use | SemVer Impact on Release |
+#### 1. Header Format Rules (Strictly Enforced)
+
+- **`type`**: Must be in lowercase. See the table below for allowed types.
+- **`scope`** (recommended): Name of the affected package or domain in lowercase (e.g. `ckl-badge`, `storybook`, `toolchain`, `deps`).
+- **`subject`**:
+  * Written in **lowercase** (e.g., `add click trigger support`, not `Add Click Trigger Support`).
+  * Use the **imperative mood** (e.g., `fix`, `add`, `update`, not `fixed`, `added`, `updates`).
+  * **No trailing period** (`.`) at the end of the subject.
+  * Maximum header length: **100 characters**.
+
+#### 2. Allowed Commit Types
+
+| Type | Description | SemVer Impact on Release |
 | :--- | :--- | :---: |
-| `fix(ckl-badge):` | Bug fix | **Patch** (`1.0.0` ➔ `1.0.1`) |
-| `feat(ckl-carousel):` | New feature | **Minor** (`1.0.0` ➔ `1.1.0`) |
-| `feat(ckl-icon)!:` | Breaking change | **Major** (`1.0.0` ➔ `2.0.0`) |
-| `chore:`, `docs:`, `style:` | Maintenance or documentation | No release bump |
+| `feat` | A new user-facing feature or component capability | **Minor** (`1.0.0` ➔ `1.1.0`) |
+| `fix` | A bug fix for a component or tool | **Patch** (`1.0.0` ➔ `1.0.1`) |
+| `docs` | Documentation changes only (`README.md`, guides, inline comments) | None |
+| `style` | Formatting changes that do not affect code meaning (whitespace, Oxfmt) | None |
+| `refactor` | Code restructuring without fixing a bug or adding a feature | None |
+| `perf` | A code change that improves rendering or build performance | **Patch** (`1.0.0` ➔ `1.0.1`) |
+| `test` | Adding missing tests or correcting existing tests | None |
+| `build` | Changes to build system, bundling (Rolldown/Vite+), or external tooling | None |
+| `ci` | Changes to CI/CD configuration files and scripts | None |
+| `chore` | Maintenance tasks, dependency updates, or internal scripts | None |
+| `revert` | Reverting a previous commit | Depends |
+
+#### 3. Recommended Scopes
+
+* **Component Scopes**: `(ckl-badge)`, `(ckl-tooltip)`, `(ckl-carousel)`, `(ckl-side-nav)`, etc.
+* **Workspace Scopes**: `(storybook)`, `(components-kit)`, `(assets)`.
+* **Infrastructure Scopes**: `(toolchain)`, `(monorepo)`, `(deps)`, `(docs)`.
+
+#### 4. Body and Footer Rules (Line Length Gotcha)
+
+- **Separation**: There must be an empty blank line between the header, the body, and the footer.
+- **Line Length Limit**: **Every line in the commit body must be <= 100 characters**. If lines exceed 100 characters, Commitlint will reject the commit with `[body-max-line-length]`. Always wrap long descriptions.
+- **Breaking Changes**: Indicate a breaking change by appending `!` after the type/scope (e.g. `feat(ckl-icon)!: replace legacy font icons with inline SVGs`) or by including `BREAKING CHANGE: <explanation>` in the footer. This triggers a **Major** release (`1.0.0` ➔ `2.0.0`).
+
+#### 5. Concrete Examples
+
+##### ✅ Valid Commit Messages
+```bash
+# Feature on a component
+git commit -m "feat(ckl-tooltip): add interactive click trigger support"
+
+# Bug fix
+git commit -m "fix(ckl-side-nav): prevent reflow flickering during collapse"
+
+# Documentation
+git commit -m "docs(monorepo): document commit conventions and vite+ hooks"
+
+# Breaking change with exclamation mark
+git commit -m "feat(ckl-icon)!: drop support for legacy font icons"
+
+# Multi-line commit with body (all body lines <= 100 chars)
+git commit -m "feat(toolchain): migrate monorepo to Vite+ and Vitest 5
+
+Migrate the entire repository toolchain to the 100% native Vite+ standard.
+Replaces legacy Yarn, ESLint, Stylelint, Husky, and lint-staged."
+```
+
+##### ❌ Invalid Commit Messages (Blocked by Commitlint)
+```bash
+# ERROR: Capitalized subject
+git commit -m "feat(ckl-badge): Add new outline variant"
+
+# ERROR: Period at the end of the subject
+git commit -m "fix(ckl-carousel): fix touch swipe gesture."
+
+# ERROR: Past tense verb
+git commit -m "fix(ckl-loader): fixed svg animation timing"
+
+# ERROR: Unknown type
+git commit -m "updated(deps): bump vite to 7.0.0"
+
+# ERROR: Body line longer than 100 characters
+# (Will fail with: body's lines must not be longer than 100 characters [body-max-line-length])
+```
+
+#### 6. Ignored Prefixes
+Commits starting with `wip` or `publish` are exempt from Commitlint validation (configured in `commitlint.config.js`).
 
 ---
 
@@ -620,7 +709,7 @@ type(scope): brief description in lowercase
 
 The command in [package.json](file:///Users/nelo/proyectos/components-kit/package.json) is:
 ```bash
-yarn lerna:version
+pnpm lerna:version
 ```
 Which executes under the hood:
 ```bash
@@ -654,15 +743,15 @@ All components in this monorepo currently define `"private": true`:
 ## 7. Troubleshooting & FAQ
 
 ### Q: Storybook or Vite cannot resolve a newly created component.
-**A:** Ensure you added `"@components-kit/ckl-your-component": "*"` to `apps/storybook/package.json` and executed `yarn install` at the monorepo root to create the local symlink in `node_modules`.
+**A:** Ensure you added `"@components-kit/ckl-your-component": "*"` to `apps/storybook/package.json` and executed `pnpm install` at the monorepo root to create the local symlink in `node_modules`.
 
 ---
 
-### Q: I edited code, but `yarn test` or `yarn build` finished in 50ms stating `read from cache`.
+### Q: I edited code, but `pnpm test` or `pnpm build` finished in 50ms stating `read from cache`.
 **A:** Nx detected that the source files have not changed since the last execution. To bypass the cache and force a complete rerun:
 ```bash
-yarn test --skip-nx-cache
-yarn build --skip-nx-cache
+pnpm test --skip-nx-cache
+pnpm build --skip-nx-cache
 ```
 
 ---
@@ -671,11 +760,11 @@ yarn build --skip-nx-cache
 **A:** Perform a deep monorepo cleanup:
 ```bash
 # Removes all node_modules from all workspace packages
-yarn lerna clean --yes
+pnpm lerna clean --yes
 
 # Remove root node_modules and reinstall cleanly
-rm -rf node_modules yarn.lock
-yarn install
+rm -rf node_modules pnpm-lock.yaml
+pnpm install
 ```
 
 ---
@@ -694,29 +783,31 @@ git commit -m "fix(ckl-badge): adjust border radius alignment in oval shape"
 # ========================================================
 # 🚀 EVERYDAY WORKFLOW
 # ========================================================
-yarn storybook:dev                    # Launch Storybook 10 at http://localhost:6006
-yarn test                            # Run ALL unit test suites in parallel
-yarn build                           # Compile ALL packages across the monorepo
-yarn lint                            # Run ESLint & Stylelint on all projects
+pnpm storybook:dev                    # Launch Storybook 10 at http://localhost:6006
+pnpm test                             # Run ALL unit test suites in parallel (Vitest 5)
+pnpm build                            # Compile ALL packages across monorepo (Rolldown / Vite Task)
+pnpm lint                             # Fast Oxlint scan across all packages (< 700ms)
+pnpm fmt                              # Format code in place using Oxfmt
+pnpm check                            # Run format, lint, and type checks in a single pass
 
 # ========================================================
 # 🎯 SINGLE PACKAGE SCOPING
 # ========================================================
-yarn lerna run test --scope=@components-kit/ckl-badge    # Test only ckl-badge
-yarn lerna run build --scope=@components-kit/ckl-badge   # Build only ckl-badge
-yarn --cwd packages/components/ckl-badge test:watch      # Live test watch mode
+pnpm lerna run test --scope=@components-kit/ckl-badge    # Test only ckl-badge
+pnpm lerna run build --scope=@components-kit/ckl-badge   # Build only ckl-badge
+pnpm --filter @components-kit/ckl-badge test:watch      # Live test watch mode
 
 # ========================================================
 # 🔍 VISUALIZATION & DIAGNOSTICS
 # ========================================================
-yarn graph                           # Open interactive 3D dependency graph
-yarn audit                           # Check security vulnerabilities
+pnpm graph                            # Open interactive 3D dependency graph
+pnpm audit                            # Check security vulnerabilities
 
 # ========================================================
 # 📦 VERSIONING & CLEANUP
 # ========================================================
-yarn lerna:version                   # Bump independent semantic versions
-yarn lerna clean                     # Purge all workspace node_modules
+pnpm lerna:version                    # Bump independent semantic versions
+pnpm lerna clean                      # Purge all workspace node_modules
 ```
 
 ---

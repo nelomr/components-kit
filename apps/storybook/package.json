@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "storybook dev -p 6006 --no-open",
     "build": "storybook build",
-    "lint": "eslint ."
+    "lint": "vp lint ."
   },
   "keywords": [],
   "author": "",
@@ -35,9 +35,10 @@
     "@storybook/addon-docs": "^10.6.3",
     "@storybook/vue3": "^10.6.3",
     "@storybook/vue3-vite": "^10.6.3",
-    "@vitejs/plugin-vue": "^6.0.3",
-    "eslint-config-components": "^1.0.0",
+    "@vitejs/plugin-vue": "^6.0.10",
     "storybook": "^10.6.3",
-    "vite-svg-loader": "^5.1.0"
+    "vite": "catalog:",
+    "vite-svg-loader": "^5.1.0",
+    "vue": "^3.5.44"
   }
 }

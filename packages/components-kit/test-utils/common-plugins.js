@@ -1,7 +1,7 @@
 import { DOMWrapper } from "@vue/test-utils";
 
 export const DataSelectorPlugin = (wrapper) => {
-  function findByDataSelector(selector, path = null) {
+  function findByDataSelector(selector, path = "") {
     let dataSelector = `[data-selector='${selector}']`;
     if (path) {
       dataSelector = `${dataSelector} ${path}`;

@@ -12,7 +12,7 @@
     "./style": "./src/components/ial-icon/ial-icon.scss"
   },
   "dependencies": {
-    "vue": "^3.2.45"
+    "vue": "^3.5.44"
   },
   "license": "MIT"
 }
