@@ -1,81 +1,81 @@
-import { CklIcon } from '@components-kit/ckl-icon/src';
-import IalAlert from '../../../../packages/assets/src/icons/ial-alert.svg';
-import IalArrowDown from '../../../../packages/assets/src/icons/ial-arrow-down.svg';
-import IalArrowPointerDown from '../../../../packages/assets/src/icons/ial-arrow-pointer-down.svg';
-import IalArrowPointerLeft from '../../../../packages/assets/src/icons/ial-arrow-pointer-left.svg';
-import IalArrowPointerRight from '../../../../packages/assets/src/icons/ial-arrow-pointer-right.svg';
-import IalArrow from '../../../../packages/assets/src/icons/ial-arrow.svg';
-import IalDownload from '../../../../packages/assets/src/icons/ial-download.svg';
-import IalHome from '../../../../packages/assets/src/icons/ial-home.svg';
-import IalSettings from '../../../../packages/assets/src/icons/ial-settings.svg';
-import IalUser from '../../../../packages/assets/src/icons/ial-user.svg';
+import { CklIcon } from "@components-kit/ckl-icon/src";
+import IalAlert from "../../../../packages/assets/src/icons/ial-alert.svg";
+import IalArrowDown from "../../../../packages/assets/src/icons/ial-arrow-down.svg";
+import IalArrowPointerDown from "../../../../packages/assets/src/icons/ial-arrow-pointer-down.svg";
+import IalArrowPointerLeft from "../../../../packages/assets/src/icons/ial-arrow-pointer-left.svg";
+import IalArrowPointerRight from "../../../../packages/assets/src/icons/ial-arrow-pointer-right.svg";
+import IalArrow from "../../../../packages/assets/src/icons/ial-arrow.svg";
+import IalDownload from "../../../../packages/assets/src/icons/ial-download.svg";
+import IalHome from "../../../../packages/assets/src/icons/ial-home.svg";
+import IalSettings from "../../../../packages/assets/src/icons/ial-settings.svg";
+import IalUser from "../../../../packages/assets/src/icons/ial-user.svg";
 
 const iconMap = {
-  'ial-alert': IalAlert,
-  'ial-arrow': IalArrow,
-  'ial-arrow-down': IalArrowDown,
-  'ial-arrow-pointer-down': IalArrowPointerDown,
-  'ial-arrow-pointer-left': IalArrowPointerLeft,
-  'ial-arrow-pointer-right': IalArrowPointerRight,
-  'ial-download': IalDownload,
-  'ial-home': IalHome,
-  'ial-settings': IalSettings,
-  'ial-user': IalUser,
+  "ial-alert": IalAlert,
+  "ial-arrow": IalArrow,
+  "ial-arrow-down": IalArrowDown,
+  "ial-arrow-pointer-down": IalArrowPointerDown,
+  "ial-arrow-pointer-left": IalArrowPointerLeft,
+  "ial-arrow-pointer-right": IalArrowPointerRight,
+  "ial-download": IalDownload,
+  "ial-home": IalHome,
+  "ial-settings": IalSettings,
+  "ial-user": IalUser,
 };
 
 export default {
-  title: 'components/ckl-icon',
+  title: "components/ckl-icon",
   component: CklIcon,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
   args: {
-    icon: 'ial-home',
-    color: 'primary',
-    size: 'medium',
-    cursor: 'default',
+    icon: "ial-home",
+    color: "primary",
+    size: "medium",
+    cursor: "default",
     disabled: false,
   },
   argTypes: {
     icon: {
-      control: 'select',
+      control: "select",
       options: Object.keys(iconMap),
       mapping: iconMap,
-      description: 'Icon component to render',
+      description: "Icon component to render",
     },
     color: {
-      control: 'select',
+      control: "select",
       options: [
-        'primary',
-        'secondary',
-        'grey',
-        'info',
-        'success',
-        'warning',
-        'error',
-        'clear',
-        'white',
+        "primary",
+        "secondary",
+        "grey",
+        "info",
+        "success",
+        "warning",
+        "error",
+        "clear",
+        "white",
       ],
-      description: 'Color of the icon',
+      description: "Color of the icon",
     },
     size: {
-      control: 'select',
-      options: ['small', 'default', 'medium', 'large', 'xlarge', 'big'],
-      description: 'Size of the icon',
+      control: "select",
+      options: ["small", "default", "medium", "large", "xlarge", "big"],
+      description: "Size of the icon",
     },
     cursor: {
-      control: 'select',
-      options: ['default', 'pointer'],
-      description: 'Cursor on hover',
+      control: "select",
+      options: ["default", "pointer"],
+      description: "Cursor on hover",
     },
     disabled: {
-      control: 'boolean',
-      description: 'Disabled state',
+      control: "boolean",
+      description: "Disabled state",
     },
     onClick: {
-      action: 'click',
-      description: 'Emitted when clicked and not disabled',
+      action: "click",
+      description: "Emitted when clicked and not disabled",
     },
   },
 };
@@ -83,9 +83,9 @@ export default {
 export const Primary = {
   args: {
     icon: "ial-settings",
-    color: "success"
+    color: "success",
   },
-  render:(args) => ({
+  render: (args) => ({
     components: { CklIcon },
     setup() {
       return { args };
@@ -93,14 +93,14 @@ export const Primary = {
     template: `
       <ckl-icon v-bind="args" @click="args.onClick" />
     `,
-  })
+  }),
 };
 
 export const Sizes = {
   render: () => ({
     components: { CklIcon },
     setup() {
-      const sizes = ['small', 'default', 'medium', 'large', 'xlarge', 'big'];
+      const sizes = ["small", "default", "medium", "large", "xlarge", "big"];
       return { sizes, IalSettings };
     },
     template: `
@@ -118,7 +118,15 @@ export const Colors = {
   render: () => ({
     components: { CklIcon },
     setup() {
-      const colors = ['primary', 'secondary', 'success', 'warning', 'error', 'info', 'grey'];
+      const colors = [
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "error",
+        "info",
+        "grey",
+      ];
       return { colors, IalUser };
     },
     template: `

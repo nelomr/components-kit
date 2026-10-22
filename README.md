@@ -4,13 +4,14 @@
 
 ### Vue 3 UI Component Library
 
-A high-performance, modular monorepo engineered with **Vue 3**, **Vite 5**, **Storybook 10**, and **Lerna + Nx**.
+A high-performance, modular monorepo engineered with **Vue 3**, **Vite 5**, **Storybook 10**, **Lerna 10**, and **Nx 23**.
 
 [![Vue.js 3](https://img.shields.io/badge/Vue.js-3.x-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)](https://vuejs.org/)
 [![Vite 5](https://img.shields.io/badge/Vite-5.x-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
 [![Storybook 10](https://img.shields.io/badge/Storybook-10.6-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](https://storybook.js.org/)
 [![Vitest 2](https://img.shields.io/badge/Vitest-2.x-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
-[![Monorepo](https://img.shields.io/badge/Monorepo-Lerna%20%2B%20Nx-9333EA?style=for-the-badge&logo=nx&logoColor=white)](https://lerna.js.org/)
+[![Lerna 10](https://img.shields.io/badge/Lerna-10.1-9333EA?style=for-the-badge&logo=lerna&logoColor=white)](https://lerna.js.org/)
+[![Nx 23](https://img.shields.io/badge/Nx-23.3-143055?style=for-the-badge&logo=nx&logoColor=white)](https://nx.dev/)
 [![Node.js](https://img.shields.io/badge/Node.js-20%20%7C%2022%20%7C%2024-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](./LICENSE)
 
@@ -20,12 +21,16 @@ A high-performance, modular monorepo engineered with **Vue 3**, **Vite 5**, **St
 [**Quick Start**](#-quick-start) •
 [**Storybook 10**](#-storybook-workbench) •
 [**Architecture**](#-architecture) •
+[**Lerna 10 Guide**](./docs/MONOREPO_GUIDE.md) •
 [**Component Theming**](#-theming--customization) •
 [**Contributing**](#-contributing--standards)
 
 ---
 
 </div>
+
+> [!TIP]
+> 📖 **New to the monorepo?** Check out the **[Definitive Lerna 10 & Nx Workspaces Guide](./docs/MONOREPO_GUIDE.md)** with step-by-step tutorials on creating components, running scoped package tasks, dependency management, and leveraging computation caching.
 
 ## ✦ Key Highlights
 
@@ -182,7 +187,7 @@ graph TD
 | **🚀 Layer 1: Apps** | [`apps/storybook`](./apps/storybook) | Interactive component playground, live controls, visual regression sandbox, and MDX documentation. | Storybook 10, Vite 5, MDX 3 |
 | **🧩 Layer 2: Components** | [`packages/components/*`](./packages/components) | 14 atomic, accessible UI components. Fully tree-shakeable with zero cross-dependencies. | Vue 3 Composition API, Dart Sass, ARIA 1.2 |
 | **💎 Layer 3: Foundations** | [`packages/assets`](./packages/assets)<br/>[`packages/styles`](./packages/styles)<br/>[`packages/helpers`](./packages/helpers) | Shared icon registry (`IalIcon`), styling mixins (`default-styles`), and DOM utility functions (`on-click-outside`). | SVG Factory, SCSS Mixins, Vanilla JS |
-| **⚙️ Layer 4: Tooling** | [`packages/components-kit`](./packages/components-kit)<br/>[`packages/eslint-config-components`](./packages/eslint-config-components) | Central CLI runner (`kit-cli`) orchestrating Vite builds, Vitest runs, and shared linting standards. | Lerna, Nx, Vitest, Rollup, ESLint |
+| **⚙️ Layer 4: Tooling** | [`packages/components-kit`](./packages/components-kit)<br/>[`packages/eslint-config-components`](./packages/eslint-config-components) | Central CLI runner (`kit-cli`) orchestrating Vite builds, Vitest runs, and shared linting standards. | Lerna 10, Nx 23, Vitest, Rollup, ESLint |
 
 ---
 
@@ -273,10 +278,11 @@ All workspace operations are accessible via unified root commands:
 | :--------------------- | :------------------- | :--------------------------------------------------------- |
 | `yarn storybook:dev`   | **Dev Server**       | Launches Storybook 10 on port 6006 with instant Vite HMR   |
 | `yarn test`            | **Unit Tests**       | Runs Vitest across all 14 component suites in parallel     |
-| `yarn build`           | **Production Build** | Builds all component libraries into ESM/UMD distributions  |
-| `yarn lint`            | **Code Quality**     | Runs ESLint analysis across all packages and apps          |
+| `yarn build`           | **Production Build** | Builds all component libraries into ESM distributions      |
+| `yarn lint`            | **Code Quality**     | Runs ESLint and Stylelint analysis across all packages     |
 | `yarn graph`           | **Dependency Graph** | Generates an interactive visual graph of monorepo packages |
-| `yarn publish:package` | **Dry Run Release**  | Verifies versioning and release readiness via Lerna        |
+| `yarn lerna:version`   | **Version Bump**     | Interactively updates independent package versions         |
+| `yarn publish:package` | **Publishing Guard** | Notifies that all monorepo packages are private            |
 
 ---
 

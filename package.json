@@ -11,7 +11,7 @@
     "graph": "nx graph",
     "lerna": "lerna",
     "lerna:version": "lerna version --no-private --no-push",
-    "publish:package": "echo 'Example publish command: lerna publish --dry-run' && lerna publish --dry-run",
+    "publish:package": "echo 'Publishing is disabled: all packages in this repository are private'",
     "internal:publish:package": "echo 'Publishing disabled for this template repository'",
     "lerna:clean": "lerna clean",
     "storybook:dev": "yarn --cwd apps/storybook dev"
@@ -20,9 +20,9 @@
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
     "husky": "^8.0.3",
-    "lerna": "^6.6.1",
-    "lint-staged": "^13.2.2",
-    "nx": "^16.0.1"
+    "lerna": "^10.1.1",
+    "lint-staged": "^15.4.3",
+    "nx": "^23.3.0"
   },
   "workspaces": {
     "packages": [
@@ -46,5 +46,9 @@
   },
   "dependencies": {
     "@humanwhocodes/object-schema": "^2.0.2"
+  },
+  "resolutions": {
+    "undici": "^7.29.1",
+    "postcss-selector-parser": "^7.1.6"
   }
 }

@@ -1,35 +1,34 @@
-import { CklVerticalTabs } from '@components-kit/ckl-vertical-tabs/src';
-import { ref } from 'vue';
+import { CklVerticalTabs } from "@components-kit/ckl-vertical-tabs/src";
 
 export default {
-  title: 'components/ckl-vertical-tabs',
+  title: "components/ckl-vertical-tabs",
   component: CklVerticalTabs,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
   args: {
     tabs: [
-      { value: 'profile', name: 'Profile Information' },
-      { value: 'security', name: 'Security & 2FA' },
-      { value: 'billing', name: 'Billing & Plans' },
-      { value: 'notifications', name: 'Notification Preferences' },
-      { value: 'advanced', name: 'Advanced Settings', disabled: true },
+      { value: "profile", name: "Profile Information" },
+      { value: "security", name: "Security & 2FA" },
+      { value: "billing", name: "Billing & Plans" },
+      { value: "notifications", name: "Notification Preferences" },
+      { value: "advanced", name: "Advanced Settings", disabled: true },
     ],
-    selectedTab: 'profile',
+    selectedTab: "profile",
   },
   argTypes: {
     tabs: {
-      control: 'object',
-      description: 'Array of tab definitions',
+      control: "object",
+      description: "Array of tab definitions",
     },
     selectedTab: {
-      control: 'text',
-      description: 'Active tab value',
+      control: "text",
+      description: "Active tab value",
     },
-    'select-tab': {
-      action: 'select-tab',
-      description: 'Emitted when a tab is selected',
+    "select-tab": {
+      action: "select-tab",
+      description: "Emitted when a tab is selected",
     },
   },
 };
@@ -77,13 +76,13 @@ export const Interactive = {
 export const WithErrorIndicators = {
   args: {
     tabs: [
-      { value: 'step-1', name: 'Step 1: Account Info' },
-      { value: 'step-2', name: 'Step 2: Payment Details' },
-      { value: 'step-3', name: 'Step 3: Review & Submit' },
+      { value: "step-1", name: "Step 1: Account Info" },
+      { value: "step-2", name: "Step 2: Payment Details" },
+      { value: "step-3", name: "Step 3: Review & Submit" },
     ],
-    selectedTab: 'step-2',
+    selectedTab: "step-2",
     tabErrors: {
-      'step-2': true,
+      "step-2": true,
     },
   },
   render: (args) => ({

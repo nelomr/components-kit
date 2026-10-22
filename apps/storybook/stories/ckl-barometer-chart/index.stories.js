@@ -1,11 +1,11 @@
-import CklBarometerChart from '../../../../packages/components/ckl-barometer-chart/src/ckl-barometer-chart.vue';
+import CklBarometerChart from "../../../../packages/components/ckl-barometer-chart/src/ckl-barometer-chart.vue";
 
 export default {
-  title: 'components/ckl-barometer-chart',
+  title: "components/ckl-barometer-chart",
   component: CklBarometerChart,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
   render: (args) => ({
     components: { CklBarometerChart },
@@ -16,20 +16,20 @@ export default {
   }),
   args: {
     percentage: 50,
-    size: '300px',
+    size: "300px",
   },
   argTypes: {
     percentage: {
-      control: { type: 'range', min: 0, max: 100 },
-      description: 'Current percentage value (0-100)',
+      control: { type: "range", min: 0, max: 100 },
+      description: "Current percentage value (0-100)",
     },
     size: {
-      control: 'text',
-      description: 'Size of the gauge (width)',
+      control: "text",
+      description: "Size of the gauge (width)",
     },
     ranges: {
-      control: 'object',
-      description: 'Configuration for ranges and labels',
+      control: "object",
+      description: "Configuration for ranges and labels",
     },
   },
 };
@@ -56,9 +56,9 @@ export const CustomRanges = {
   args: {
     percentage: 60,
     ranges: [
-      { min: 0, max: 30, label: 'Bad' },
-      { min: 30, max: 70, label: 'Average' },
-      { min: 70, max: 100, label: 'Good' },
+      { min: 0, max: 30, label: "Bad" },
+      { min: 30, max: 70, label: "Average" },
+      { min: 70, max: 100, label: "Good" },
     ],
   },
 };
@@ -80,33 +80,33 @@ const withFontSize = (fontSize) => (args) => ({
 });
 
 export const Font12 = {
-  render: withFontSize('12px'),
+  render: withFontSize("12px"),
   args: {
-    size: '18em',
+    size: "18em",
     percentage: 25,
   },
 };
 
 export const Font16 = {
-  render: withFontSize('16px'),
+  render: withFontSize("16px"),
   args: {
-    size: '18em',
+    size: "18em",
     percentage: 50,
   },
 };
 
 export const Font24 = {
-  render: withFontSize('24px'),
+  render: withFontSize("24px"),
   args: {
-    size: '18em',
+    size: "18em",
     percentage: 75,
   },
 };
 
 export const Font32 = {
-  render: withFontSize('32px'),
+  render: withFontSize("32px"),
   args: {
-    size: '18em',
+    size: "18em",
     percentage: 100,
   },
 };

@@ -1,17 +1,17 @@
-import { CklTooltip } from '@components-kit/ckl-tooltip/src';
+import { CklTooltip } from "@components-kit/ckl-tooltip/src";
 
 export default {
-  title: 'components/ckl-tooltip',
+  title: "components/ckl-tooltip",
   component: CklTooltip,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
   args: {
-    text: 'This is a helpful tooltip message',
-    position: 'bottom',
-    color: 'primary',
-    trigger: 'hover',
+    text: "This is a helpful tooltip message",
+    position: "bottom",
+    color: "primary",
+    trigger: "hover",
     attachToBody: false,
     noPadding: false,
     disabled: false,
@@ -19,39 +19,39 @@ export default {
   },
   argTypes: {
     text: {
-      control: 'text',
-      description: 'Text displayed in the tooltip',
+      control: "text",
+      description: "Text displayed in the tooltip",
     },
     position: {
-      control: 'select',
-      options: ['top', 'bottom', 'left', 'right'],
-      description: 'Position relative to trigger element',
+      control: "select",
+      options: ["top", "bottom", "left", "right"],
+      description: "Position relative to trigger element",
     },
     color: {
-      control: 'select',
-      options: ['primary', 'success', 'error', 'warning', 'info'],
-      description: 'Color theme of the tooltip',
+      control: "select",
+      options: ["primary", "success", "error", "warning", "info"],
+      description: "Color theme of the tooltip",
     },
     trigger: {
-      control: 'select',
-      options: ['hover', 'click', 'manual'],
-      description: 'Interaction trigger mode',
+      control: "select",
+      options: ["hover", "click", "manual"],
+      description: "Interaction trigger mode",
     },
     visible: {
-      control: 'boolean',
-      description: 'Controls tooltip visibility when trigger is manual',
+      control: "boolean",
+      description: "Controls tooltip visibility when trigger is manual",
     },
     attachToBody: {
-      control: 'boolean',
-      description: 'Teleports tooltip to body to prevent overflow clipping',
+      control: "boolean",
+      description: "Teleports tooltip to body to prevent overflow clipping",
     },
     noPadding: {
-      control: 'boolean',
-      description: 'Removes internal padding from tooltip',
+      control: "boolean",
+      description: "Removes internal padding from tooltip",
     },
     disabled: {
-      control: 'boolean',
-      description: 'Disables tooltip visibility',
+      control: "boolean",
+      description: "Disables tooltip visibility",
     },
   },
 };
@@ -100,7 +100,7 @@ export const Colors = {
   render: () => ({
     components: { CklTooltip },
     setup() {
-      const colors = ['primary', 'success', 'error', 'warning', 'info'];
+      const colors = ["primary", "success", "error", "warning", "info"];
       return { colors };
     },
     template: `

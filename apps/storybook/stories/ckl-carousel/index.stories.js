@@ -1,64 +1,65 @@
-import CklCarousel from '../../../../packages/components/ckl-carousel/src/ckl-carousel.vue';
-import { ref } from 'vue';
-import { within, userEvent } from 'storybook/test';
+import CklCarousel from "../../../../packages/components/ckl-carousel/src/ckl-carousel.vue";
+import { ref } from "vue";
+import { within, userEvent } from "storybook/test";
 
 export default {
-  title: 'components/ckl-carousel',
+  title: "components/ckl-carousel",
   component: CklCarousel,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
   args: {
     items: [
-      { id: '1', content: 'Slide 1' },
-      { id: '2', content: 'Slide 2' },
-      { id: '3', content: 'Slide 3' },
-      { id: '4', content: 'Slide 4' },
-      { id: '5', content: 'Slide 5' },
+      { id: "1", content: "Slide 1" },
+      { id: "2", content: "Slide 2" },
+      { id: "3", content: "Slide 3" },
+      { id: "4", content: "Slide 4" },
+      { id: "5", content: "Slide 5" },
     ],
     itemWidth: 200,
     gap: 16,
     slidesToScroll: 1,
     transitionDuration: 300,
-    itemKey: 'id',
+    itemKey: "id",
   },
   argTypes: {
     items: {
-      control: 'object',
-      description: 'Array of items to display in the carousel',
+      control: "object",
+      description: "Array of items to display in the carousel",
     },
     itemWidth: {
-      control: 'number',
-      description: 'Width of each slide in pixels',
+      control: "number",
+      description: "Width of each slide in pixels",
     },
     gap: {
-      control: 'number',
-      description: 'Gap between slides in pixels',
+      control: "number",
+      description: "Gap between slides in pixels",
     },
     slidesToScroll: {
-      control: 'number',
-      description: 'Number of slides to scroll at once',
+      control: "number",
+      description: "Number of slides to scroll at once",
     },
     transitionDuration: {
-      control: 'number',
-      description: 'Duration of the transition in milliseconds',
+      control: "number",
+      description: "Duration of the transition in milliseconds",
     },
     itemKey: {
-      control: 'text',
-      description: 'Key to identify unique items',
+      control: "text",
+      description: "Key to identify unique items",
     },
     visibleItems: {
-      control: 'number',
-      description: 'Number of items visible at once. If set, overrides automatic width calculation.',
+      control: "number",
+      description:
+        "Number of items visible at once. If set, overrides automatic width calculation.",
     },
     modelValue: {
-      control: 'number',
-      description: 'Current slide index (v-model)',
+      control: "number",
+      description: "Current slide index (v-model)",
     },
-    'update:model-value': {
-      action: 'update:model-value',
-      description: 'Emitted when the current index changes',
+    "update:model-value": {
+      action: "update:model-value",
+      description: "Emitted when the current index changes",
     },
   },
 };
@@ -134,7 +135,10 @@ export const Interactive = {
 
 export const FixedVisibleItems = {
   args: {
-    items: Array.from({ length: 10 }, (_, i) => ({ id: `${i}`, content: `Item ${i + 1}` })),
+    items: Array.from({ length: 10 }, (_, i) => ({
+      id: `${i}`,
+      content: `Item ${i + 1}`,
+    })),
     itemWidth: 100,
     visibleItems: 3,
   },
@@ -171,8 +175,8 @@ export const FixedVisibleItems = {
 export const NoControls = {
   args: {
     items: [
-      { id: '1', content: 'Slide 1' },
-      { id: '2', content: 'Slide 2' },
+      { id: "1", content: "Slide 1" },
+      { id: "2", content: "Slide 2" },
     ],
     itemWidth: 200,
   },
@@ -209,9 +213,9 @@ export const WithInteractions = {
   ...Primary,
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    const nextButton = canvas.getByLabelText('Next slide');
+    const nextButton = canvas.getByLabelText("Next slide");
 
-    await step('Click next button', async () => {
+    await step("Click next button", async () => {
       await userEvent.click(nextButton);
     });
 

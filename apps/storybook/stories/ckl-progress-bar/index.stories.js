@@ -1,15 +1,15 @@
-import { CklProgressBar } from '@components-kit/ckl-progress-bar/src';
+import { CklProgressBar } from "@components-kit/ckl-progress-bar/src";
 
 export default {
-  title: 'components/ckl-progress-bar',
+  title: "components/ckl-progress-bar",
   component: CklProgressBar,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   args: {
     value: 22,
   },
   argTypes: {
     value: {
-      control: { type: 'range', min: 0, max: 100, step: 1 },
+      control: { type: "range", min: 0, max: 100, step: 1 },
     },
   },
 };

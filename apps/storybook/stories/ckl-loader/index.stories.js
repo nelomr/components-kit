@@ -1,11 +1,11 @@
-import { CklLoader } from '@components-kit/ckl-loader/src';
+import { CklLoader } from "@components-kit/ckl-loader/src";
 
 export default {
-  title: 'components/ckl-loader',
+  title: "components/ckl-loader",
   component: CklLoader,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
 };
 

@@ -1,11 +1,11 @@
-import { CklBadge } from '@components-kit/ckl-badge/src';
+import { CklBadge } from "@components-kit/ckl-badge/src";
 
 export default {
-  title: 'components/ckl-badge',
+  title: "components/ckl-badge",
   component: CklBadge,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    layout: 'centered',
+    layout: "centered",
     docs: {
       description: {
         component: `
@@ -45,64 +45,64 @@ Customize appearance using scoped CSS custom properties:
     },
   },
   args: {
-    color: 'primary',
-    size: 'large',
-    shape: 'oval',
+    color: "primary",
+    size: "large",
+    shape: "oval",
     outlined: false,
-    defaultSlot: 'Badge',
+    defaultSlot: "Badge",
   },
   argTypes: {
     color: {
-      control: 'select',
+      control: "select",
       options: [
-        'primary',
-        'secondary',
-        'error',
-        'success',
-        'warning',
-        'info',
-        'purple',
-        'mid-blue',
-        'transparent',
+        "primary",
+        "secondary",
+        "error",
+        "success",
+        "warning",
+        "info",
+        "purple",
+        "mid-blue",
+        "transparent",
       ],
-      description: 'Color theme of the badge',
+      description: "Color theme of the badge",
       table: {
-        category: 'Appearance',
-        defaultValue: { summary: 'primary' },
+        category: "Appearance",
+        defaultValue: { summary: "primary" },
       },
     },
     size: {
-      control: 'select',
-      options: ['large', 'medium', 'small', 'x-small'],
-      description: 'Size of the badge',
+      control: "select",
+      options: ["large", "medium", "small", "x-small"],
+      description: "Size of the badge",
       table: {
-        category: 'Dimensions',
-        defaultValue: { summary: 'large' },
+        category: "Dimensions",
+        defaultValue: { summary: "large" },
       },
     },
     shape: {
-      control: 'select',
-      options: ['oval', 'square', 'circle'],
-      description: 'Shape of the badge container',
+      control: "select",
+      options: ["oval", "square", "circle"],
+      description: "Shape of the badge container",
       table: {
-        category: 'Appearance',
-        defaultValue: { summary: 'oval' },
+        category: "Appearance",
+        defaultValue: { summary: "oval" },
       },
     },
     outlined: {
-      control: 'boolean',
-      description: 'Renders badge in outlined style',
+      control: "boolean",
+      description: "Renders badge in outlined style",
       table: {
-        category: 'Appearance',
-        defaultValue: { summary: 'false' },
+        category: "Appearance",
+        defaultValue: { summary: "false" },
       },
     },
     defaultSlot: {
-      control: 'text',
-      description: 'Badge content rendered in default slot',
+      control: "text",
+      description: "Badge content rendered in default slot",
       table: {
-        category: 'Content',
-        defaultValue: { summary: 'Badge' },
+        category: "Content",
+        defaultValue: { summary: "Badge" },
       },
     },
   },
@@ -112,7 +112,8 @@ export const Primary = {
   parameters: {
     docs: {
       description: {
-        story: 'Standard interactive badge controlled via Storybook Controls table below.',
+        story:
+          "Standard interactive badge controlled via Storybook Controls table below.",
       },
     },
   },
@@ -133,7 +134,8 @@ export const Colors = {
   parameters: {
     docs: {
       description: {
-        story: 'Full palette of brand and semantic color tokens: `primary`, `secondary`, `success`, `warning`, `error`, `info`, `purple`, and `mid-blue`.',
+        story:
+          "Full palette of brand and semantic color tokens: `primary`, `secondary`, `success`, `warning`, `error`, `info`, `purple`, and `mid-blue`.",
       },
     },
   },
@@ -141,14 +143,14 @@ export const Colors = {
     components: { CklBadge },
     setup() {
       const colors = [
-        'primary',
-        'secondary',
-        'success',
-        'warning',
-        'error',
-        'info',
-        'purple',
-        'mid-blue',
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "error",
+        "info",
+        "purple",
+        "mid-blue",
       ];
       return { colors };
     },
@@ -166,14 +168,23 @@ export const Outlined = {
   parameters: {
     docs: {
       description: {
-        story: 'Outlined badge variants with transparent backgrounds and colored borders for subtle status indicators.',
+        story:
+          "Outlined badge variants with transparent backgrounds and colored borders for subtle status indicators.",
       },
     },
   },
   render: () => ({
     components: { CklBadge },
     setup() {
-      const colors = ['primary', 'secondary', 'success', 'warning', 'error', 'info', 'purple'];
+      const colors = [
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "error",
+        "info",
+        "purple",
+      ];
       return { colors };
     },
     template: `
@@ -190,14 +201,15 @@ export const Sizes = {
   parameters: {
     docs: {
       description: {
-        story: 'Standard size scale: `large`, `medium`, `small`, and `x-small`.',
+        story:
+          "Standard size scale: `large`, `medium`, `small`, and `x-small`.",
       },
     },
   },
   render: () => ({
     components: { CklBadge },
     setup() {
-      const sizes = ['large', 'medium', 'small', 'x-small'];
+      const sizes = ["large", "medium", "small", "x-small"];
       return { sizes };
     },
     template: `
@@ -214,14 +226,15 @@ export const Shapes = {
   parameters: {
     docs: {
       description: {
-        story: 'Three geometric boundary shapes: `oval` (pill), `square` (rounded box), and `circle` (compact count indicator).',
+        story:
+          "Three geometric boundary shapes: `oval` (pill), `square` (rounded box), and `circle` (compact count indicator).",
       },
     },
   },
   render: () => ({
     components: { CklBadge },
     setup() {
-      const shapes = ['oval', 'square', 'circle'];
+      const shapes = ["oval", "square", "circle"];
       return { shapes };
     },
     template: `

@@ -1,34 +1,33 @@
-import { CklSlides } from '@components-kit/ckl-slides/src';
-import { ref } from 'vue';
+import { CklSlides } from "@components-kit/ckl-slides/src";
 
 export default {
-  title: 'components/ckl-slides',
+  title: "components/ckl-slides",
   component: CklSlides,
   decorators: [() => ({ template: '<div style="width:50%;"><story /></div>' })],
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
   args: {
-    slides: ['one', 'two', 'three'],
-    selected: 'one',
+    slides: ["one", "two", "three"],
+    selected: "one",
   },
   argTypes: {
     slides: {
-      control: 'object',
-      description: 'Array of slide names or identifiers',
+      control: "object",
+      description: "Array of slide names or identifiers",
     },
     selected: {
-      control: 'text',
-      description: 'Currently selected slide',
+      control: "text",
+      description: "Currently selected slide",
     },
-    'select-slide': {
-      action: 'select-slide',
+    "select-slide": {
+      action: "select-slide",
       table: {
         type: {
-          summary: 'Event emitted on selecting a slide',
+          summary: "Event emitted on selecting a slide",
         },
-        defaultValue: { summary: '() => void' },
+        defaultValue: { summary: "() => void" },
       },
     },
   },

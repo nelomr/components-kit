@@ -1,12 +1,11 @@
-import { CklPagination } from '@components-kit/ckl-pagination/src';
-import { ref } from 'vue';
+import { CklPagination } from "@components-kit/ckl-pagination/src";
 
 export default {
-  title: 'components/ckl-pagination',
+  title: "components/ckl-pagination",
   component: CklPagination,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
   args: {
     numPages: 10,
@@ -15,20 +14,20 @@ export default {
   },
   argTypes: {
     numPages: {
-      control: 'number',
-      description: 'Total number of pages',
+      control: "number",
+      description: "Total number of pages",
     },
     current: {
-      control: 'number',
-      description: 'Current active page (1-based)',
+      control: "number",
+      description: "Current active page (1-based)",
     },
     itemToShow: {
-      control: 'number',
-      description: 'Number of pagination items shown',
+      control: "number",
+      description: "Number of pagination items shown",
     },
-    'page-updated': {
-      action: 'page-updated',
-      description: 'Emitted when a page is selected',
+    "page-updated": {
+      action: "page-updated",
+      description: "Emitted when a page is selected",
     },
   },
 };

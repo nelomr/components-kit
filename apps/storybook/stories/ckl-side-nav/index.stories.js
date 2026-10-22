@@ -1,10 +1,10 @@
-import { CklSideNav } from '@components-kit/ckl-side-nav/src';
-import './side-nav-themes.scss';
+import { CklSideNav } from "@components-kit/ckl-side-nav/src";
+import "./side-nav-themes.scss";
 
 export default {
-  title: 'components/ckl-side-nav',
+  title: "components/ckl-side-nav",
   component: CklSideNav,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -45,32 +45,45 @@ The component supports theming via CSS variables. You can override colors and ba
   },
   args: {
     items: [
-      { id: 'dashboard', label: 'Dashboard', text: 'Dashboard', icon: 'ial-home' },
-      { id: 'users', label: 'Users', text: 'Users', icon: 'ial-user' },
-      { id: 'settings', label: 'Settings', text: 'Settings', icon: 'ial-settings' },
+      {
+        id: "dashboard",
+        label: "Dashboard",
+        text: "Dashboard",
+        icon: "ial-home",
+      },
+      { id: "users", label: "Users", text: "Users", icon: "ial-user" },
+      {
+        id: "settings",
+        label: "Settings",
+        text: "Settings",
+        icon: "ial-settings",
+      },
     ],
-    bottomItems: [{ id: 'logout', label: 'Logout', text: 'Logout', icon: 'ial-user' }],
-    selectedNavItem: 'dashboard',
+    bottomItems: [
+      { id: "logout", label: "Logout", text: "Logout", icon: "ial-user" },
+    ],
+    selectedNavItem: "dashboard",
     initialExtendedMenu: false,
   },
   argTypes: {
     items: {
-      control: 'object',
-      description: 'List of navigation items (id, label/text, icon, group, items for submenus)',
+      control: "object",
+      description:
+        "List of navigation items (id, label/text, icon, group, items for submenus)",
     },
     bottomItems: {
-      control: 'object',
-      description: 'List of navigation items pinned to bottom',
+      control: "object",
+      description: "List of navigation items pinned to bottom",
     },
     selectedNavItem: {
-      control: 'text',
-      description: 'Currently selected navigation item id',
+      control: "text",
+      description: "Currently selected navigation item id",
     },
     initialExtendedMenu: {
-      control: 'boolean',
-      description: 'Initial expanded/collapsed state of the menu',
+      control: "boolean",
+      description: "Initial expanded/collapsed state of the menu",
     },
-    'handle-click': { action: 'handle-click' },
+    "handle-click": { action: "handle-click" },
   },
 };
 
@@ -109,34 +122,56 @@ export const WithSubItems = {
   args: {
     items: [
       {
-        id: 'dashboard',
-        label: 'Dashboard',
-        text: 'Dashboard',
-        icon: 'ial-home',
+        id: "dashboard",
+        label: "Dashboard",
+        text: "Dashboard",
+        icon: "ial-home",
       },
       {
-        id: 'users',
-        label: 'Users',
-        text: 'Users',
-        icon: 'ial-user',
+        id: "users",
+        label: "Users",
+        text: "Users",
+        icon: "ial-user",
         items: [
-          { id: 'user-list', label: 'User List', text: 'User List', icon: 'ial-user' },
-          { id: 'user-settings', label: 'User Settings', text: 'User Settings', icon: 'ial-settings' },
+          {
+            id: "user-list",
+            label: "User List",
+            text: "User List",
+            icon: "ial-user",
+          },
+          {
+            id: "user-settings",
+            label: "User Settings",
+            text: "User Settings",
+            icon: "ial-settings",
+          },
         ],
       },
       {
-        id: 'settings',
-        label: 'Settings',
-        text: 'Settings',
-        icon: 'ial-settings',
+        id: "settings",
+        label: "Settings",
+        text: "Settings",
+        icon: "ial-settings",
         items: [
-          { id: 'profile', label: 'Profile', text: 'Profile', icon: 'ial-user' },
-          { id: 'security', label: 'Security', text: 'Security', icon: 'ial-user' },
+          {
+            id: "profile",
+            label: "Profile",
+            text: "Profile",
+            icon: "ial-user",
+          },
+          {
+            id: "security",
+            label: "Security",
+            text: "Security",
+            icon: "ial-user",
+          },
         ],
       },
     ],
-    bottomItems: [{ id: 'logout', label: 'Logout', text: 'Logout', icon: 'ial-user' }],
-    selectedNavItem: 'dashboard',
+    bottomItems: [
+      { id: "logout", label: "Logout", text: "Logout", icon: "ial-user" },
+    ],
+    selectedNavItem: "dashboard",
     initialExtendedMenu: false,
   },
 };
@@ -159,43 +194,45 @@ export const WithGroups = {
   args: {
     items: [
       {
-        id: 'dashboard',
-        label: 'Dashboard',
-        text: 'Dashboard',
-        icon: 'ial-home',
-        group: 'main',
+        id: "dashboard",
+        label: "Dashboard",
+        text: "Dashboard",
+        icon: "ial-home",
+        group: "main",
       },
       {
-        id: 'users',
-        label: 'Users',
-        text: 'Users',
-        icon: 'ial-user',
-        group: 'main',
+        id: "users",
+        label: "Users",
+        text: "Users",
+        icon: "ial-user",
+        group: "main",
       },
       {
-        id: 'settings',
-        label: 'Settings',
-        text: 'Settings',
-        icon: 'ial-settings',
-        group: 'main',
+        id: "settings",
+        label: "Settings",
+        text: "Settings",
+        icon: "ial-settings",
+        group: "main",
       },
       {
-        id: 'profile',
-        label: 'Profile',
-        text: 'Profile',
-        icon: 'ial-user',
-        group: 'account',
+        id: "profile",
+        label: "Profile",
+        text: "Profile",
+        icon: "ial-user",
+        group: "account",
       },
       {
-        id: 'security',
-        label: 'Security',
-        text: 'Security',
-        icon: 'ial-user',
-        group: 'account',
+        id: "security",
+        label: "Security",
+        text: "Security",
+        icon: "ial-user",
+        group: "account",
       },
     ],
-    bottomItems: [{ id: 'logout', label: 'Logout', text: 'Logout', icon: 'ial-user' }],
-    selectedNavItem: 'dashboard',
+    bottomItems: [
+      { id: "logout", label: "Logout", text: "Logout", icon: "ial-user" },
+    ],
+    selectedNavItem: "dashboard",
     initialExtendedMenu: false,
   },
 };
@@ -217,17 +254,32 @@ export const LightTheme = {
   }),
   args: {
     items: [
-      { id: 'dashboard', label: 'Dashboard', text: 'Dashboard', icon: 'ial-home' },
-      { id: 'users', label: 'Users', text: 'Users', icon: 'ial-user' },
-      { id: 'settings', label: 'Settings', text: 'Settings', icon: 'ial-settings' },
+      {
+        id: "dashboard",
+        label: "Dashboard",
+        text: "Dashboard",
+        icon: "ial-home",
+      },
+      { id: "users", label: "Users", text: "Users", icon: "ial-user" },
+      {
+        id: "settings",
+        label: "Settings",
+        text: "Settings",
+        icon: "ial-settings",
+      },
     ],
-    bottomItems: [{ id: 'logout', label: 'Logout', text: 'Logout', icon: 'ial-user' }],
-    selectedNavItem: 'dashboard',
+    bottomItems: [
+      { id: "logout", label: "Logout", text: "Logout", icon: "ial-user" },
+    ],
+    selectedNavItem: "dashboard",
     initialExtendedMenu: false,
   },
 };
 LightTheme.parameters = {
-  backgrounds: { default: 'light', values: [{ name: 'light', value: '#f8f8f8' }] },
+  backgrounds: {
+    default: "light",
+    values: [{ name: "light", value: "#f8f8f8" }],
+  },
 };
 
 export const DarkTheme = {
@@ -247,15 +299,27 @@ export const DarkTheme = {
   }),
   args: {
     items: [
-      { id: 'dashboard', label: 'Dashboard', text: 'Dashboard', icon: 'ial-home' },
-      { id: 'users', label: 'Users', text: 'Users', icon: 'ial-user' },
-      { id: 'settings', label: 'Settings', text: 'Settings', icon: 'ial-settings' },
+      {
+        id: "dashboard",
+        label: "Dashboard",
+        text: "Dashboard",
+        icon: "ial-home",
+      },
+      { id: "users", label: "Users", text: "Users", icon: "ial-user" },
+      {
+        id: "settings",
+        label: "Settings",
+        text: "Settings",
+        icon: "ial-settings",
+      },
     ],
-    bottomItems: [{ id: 'logout', label: 'Logout', text: 'Logout', icon: 'ial-user' }],
-    selectedNavItem: 'dashboard',
+    bottomItems: [
+      { id: "logout", label: "Logout", text: "Logout", icon: "ial-user" },
+    ],
+    selectedNavItem: "dashboard",
     initialExtendedMenu: false,
   },
 };
 DarkTheme.parameters = {
-  backgrounds: { default: 'light', values: [{ name: 'dark', value: '#222' }] },
+  backgrounds: { default: "light", values: [{ name: "dark", value: "#222" }] },
 };

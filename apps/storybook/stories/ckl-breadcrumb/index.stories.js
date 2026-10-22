@@ -1,47 +1,47 @@
-import { CklBreadcrumb } from '@components-kit/ckl-breadcrumb/src';
+import { CklBreadcrumb } from "@components-kit/ckl-breadcrumb/src";
 
 export default {
-  title: 'components/ckl-breadcrumb',
+  title: "components/ckl-breadcrumb",
   component: CklBreadcrumb,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   args: {
     path: [
       {
-        name: 'home',
-        text: 'home',
+        name: "home",
+        text: "home",
         params: {
-          id: '1',
+          id: "1",
         },
       },
       {
-        name: 'detail',
-        text: 'detail',
+        name: "detail",
+        text: "detail",
         params: {
-          id: '2',
+          id: "2",
         },
       },
       {
-        name: 'contact',
-        text: 'contact',
+        name: "contact",
+        text: "contact",
         params: {
-          id: '3',
+          id: "3",
         },
       },
     ],
-    size: '',
+    size: "",
   },
   argTypes: {
     path: {
-      control: 'object',
-      description: 'Array of breadcrumb items with name, text, and params',
+      control: "object",
+      description: "Array of breadcrumb items with name, text, and params",
     },
     size: {
-      control: 'text',
-      description: 'CSS class or sizing class applied to nodes',
+      control: "text",
+      description: "CSS class or sizing class applied to nodes",
     },
-    'node-click': {
-      action: 'node-click',
-      description: 'Emitted when a breadcrumb node is clicked',
+    "node-click": {
+      action: "node-click",
+      description: "Emitted when a breadcrumb node is clicked",
     },
   },
 };

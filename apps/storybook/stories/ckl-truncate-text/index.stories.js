@@ -1,38 +1,38 @@
-import { CklTruncateText } from '@components-kit/ckl-truncate-text/src';
+import { CklTruncateText } from "@components-kit/ckl-truncate-text/src";
 
 export default {
-  title: 'components/ckl-truncate-text',
+  title: "components/ckl-truncate-text",
   component: CklTruncateText,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
   args: {
-    text: 'This is a long text that needs to be truncated because it exceeds the limit.',
+    text: "This is a long text that needs to be truncated because it exceeds the limit.",
     characterLimit: 20,
-    separator: ', ',
+    separator: ", ",
   },
   argTypes: {
     text: {
-      control: 'text',
-      description: 'Text string or array of items to truncate',
+      control: "text",
+      description: "Text string or array of items to truncate",
     },
     characterLimit: {
-      control: 'number',
-      description: 'Maximum character limit before truncation',
+      control: "number",
+      description: "Maximum character limit before truncation",
     },
     separator: {
-      control: 'text',
-      description: 'Separator string when text is an array',
+      control: "text",
+      description: "Separator string when text is an array",
     },
   },
 };
 
 export const Primary = {
   args: {
-    text: 'This is a long text that needs to be truncated because it exceeds the limit.',
+    text: "This is a long text that needs to be truncated because it exceeds the limit.",
     characterLimit: 20,
-    separator: ', ',
+    separator: ", ",
   },
   render: (args) => ({
     components: { CklTruncateText },
@@ -45,9 +45,9 @@ export const Primary = {
 
 export const ArrayUsage = {
   args: {
-    text: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'],
+    text: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
     characterLimit: 15,
-    separator: ', ',
+    separator: ", ",
   },
   render: (args) => ({
     components: { CklTruncateText },

@@ -1,64 +1,64 @@
-import { IalIcon, getIconList } from '@components-kit/assets';
+import { IalIcon } from "@components-kit/assets";
 
 export default {
-  title: 'assets/ial-icon',
+  title: "assets/ial-icon",
   component: IalIcon,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
   args: {
-    icon: 'ial-home',
-    size: 'medium',
-    color: 'primary',
-    cursor: 'default',
+    icon: "ial-home",
+    size: "medium",
+    color: "primary",
+    cursor: "default",
     disabled: false,
   },
   argTypes: {
     icon: {
-      control: 'select',
+      control: "select",
       options: [
-        'ial-alert',
-        'ial-arrow',
-        'ial-arrow-down',
-        'ial-arrow-pointer-down',
-        'ial-arrow-pointer-left',
-        'ial-arrow-pointer-right',
-        'ial-download',
-        'ial-home',
-        'ial-settings',
-        'ial-user',
+        "ial-alert",
+        "ial-arrow",
+        "ial-arrow-down",
+        "ial-arrow-pointer-down",
+        "ial-arrow-pointer-left",
+        "ial-arrow-pointer-right",
+        "ial-download",
+        "ial-home",
+        "ial-settings",
+        "ial-user",
       ],
-      description: 'Icon name from the active icon registry',
+      description: "Icon name from the active icon registry",
     },
     size: {
-      control: 'select',
-      options: ['small', 'default', 'medium', 'large', 'xlarge', 'big'],
-      description: 'Size scaling of the icon',
+      control: "select",
+      options: ["small", "default", "medium", "large", "xlarge", "big"],
+      description: "Size scaling of the icon",
     },
     color: {
-      control: 'select',
+      control: "select",
       options: [
-        'primary',
-        'secondary',
-        'grey',
-        'info',
-        'success',
-        'warning',
-        'error',
-        'clear',
-        'white',
+        "primary",
+        "secondary",
+        "grey",
+        "info",
+        "success",
+        "warning",
+        "error",
+        "clear",
+        "white",
       ],
-      description: 'Color theme of the icon',
+      description: "Color theme of the icon",
     },
     cursor: {
-      control: 'select',
-      options: ['default', 'pointer'],
-      description: 'Hover cursor type',
+      control: "select",
+      options: ["default", "pointer"],
+      description: "Hover cursor type",
     },
     disabled: {
-      control: 'boolean',
-      description: 'Disabled state',
+      control: "boolean",
+      description: "Disabled state",
     },
   },
 };
@@ -80,16 +80,16 @@ export const CuratedIconGallery = {
     components: { IalIcon },
     setup() {
       const iconList = [
-        'ial-alert',
-        'ial-arrow',
-        'ial-arrow-down',
-        'ial-arrow-pointer-down',
-        'ial-arrow-pointer-left',
-        'ial-arrow-pointer-right',
-        'ial-download',
-        'ial-home',
-        'ial-settings',
-        'ial-user',
+        "ial-alert",
+        "ial-arrow",
+        "ial-arrow-down",
+        "ial-arrow-pointer-down",
+        "ial-arrow-pointer-left",
+        "ial-arrow-pointer-right",
+        "ial-download",
+        "ial-home",
+        "ial-settings",
+        "ial-user",
       ];
       return { iconList };
     },
@@ -128,7 +128,7 @@ export const Sizes = {
   render: () => ({
     components: { IalIcon },
     setup() {
-      const sizes = ['small', 'default', 'medium', 'large', 'xlarge', 'big'];
+      const sizes = ["small", "default", "medium", "large", "xlarge", "big"];
       return { sizes };
     },
     template: `
@@ -146,7 +146,15 @@ export const Colors = {
   render: () => ({
     components: { IalIcon },
     setup() {
-      const colors = ['primary', 'secondary', 'success', 'warning', 'error', 'info', 'grey'];
+      const colors = [
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "error",
+        "info",
+        "grey",
+      ];
       return { colors };
     },
     template: `
