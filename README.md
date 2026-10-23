@@ -9,6 +9,7 @@ A high-performance, modular monorepo engineered with **Vue 3**, **Vite+ (Rolldow
 [![Vue.js 3](https://img.shields.io/badge/Vue.js-3.x-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)](https://vuejs.org/)
 [![Vite+](https://img.shields.io/badge/Vite+-1.3-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://viteplus.dev/)
 [![Storybook 10](https://img.shields.io/badge/Storybook-10.6-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](https://storybook.js.org/)
+[![Storybook Demo](https://img.shields.io/badge/Storybook-Live_Demo-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](https://nelomr.github.io/components-kit/)
 [![Vitest 5](https://img.shields.io/badge/Vitest-5.x-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
 [![pnpm](https://img.shields.io/badge/pnpm-11.28-F69220?style=for-the-badge&logo=pnpm&logoColor=white)](https://pnpm.io/)
 [![Lerna 10](https://img.shields.io/badge/Lerna-10.1-9333EA?style=for-the-badge&logo=lerna&logoColor=white)](https://lerna.js.org/)
@@ -278,6 +279,7 @@ All workspace operations are accessible via unified root commands:
 | Command                | Action               | Description                                                |
 | :--------------------- | :------------------- | :--------------------------------------------------------- |
 | `pnpm storybook:dev`   | **Dev Server**       | Launches Storybook 10 on port 6006 with instant Vite+ HMR  |
+| `pnpm storybook:build` | **Build Storybook**  | Builds static Storybook documentation to `apps/storybook/storybook-static` |
 | `pnpm test`            | **Unit Tests**       | Runs Vitest 5 across all 14 component suites in parallel (`vp run -r test`) |
 | `pnpm build`           | **Production Build** | Builds all component libraries into ESM via Rolldown (`vp run -r build`) |
 | `pnpm lint`            | **Code Quality**     | Runs Oxlint scan across all 76 files in < 700ms (`vp lint`) |

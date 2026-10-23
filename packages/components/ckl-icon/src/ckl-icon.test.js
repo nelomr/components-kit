@@ -1,10 +1,11 @@
 import { mount } from "@vue/test-utils";
+import { markRaw } from "vue";
 import CklIcon from "./ckl-icon.vue";
 
 describe("ckl-icon.vue", () => {
   const getWrapper = (params) => mount(CklIcon, params);
 
-  const icon = {};
+  const icon = markRaw({ render: () => null });
   test("mount component", async () => {
     expect(CklIcon).toBeTruthy();
   });

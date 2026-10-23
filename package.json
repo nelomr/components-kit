@@ -17,7 +17,9 @@
     "publish:package": "echo 'Publishing is disabled: all packages in this repository are private'",
     "internal:publish:package": "echo 'Publishing disabled for this template repository'",
     "lerna:clean": "lerna clean",
-    "storybook:dev": "pnpm --filter storybook dev"
+    "storybook:dev": "pnpm --filter storybook dev",
+    "storybook:build": "pnpm --filter storybook build",
+    "build-storybook": "pnpm --filter storybook build"
   },
   "packageManager": "pnpm@11.28.4",
   "devDependencies": {

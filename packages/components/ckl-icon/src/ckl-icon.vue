@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script setup>
-import { computed } from "vue";
+import { computed, markRaw } from "vue";
 
 const props = defineProps({
   /**
@@ -13,8 +13,8 @@ const props = defineProps({
    */
   icon: {
     required: true,
-    type: Object,
-    default: () => {},
+    type: [Object, Function],
+    default: () => ({}),
   },
   /**
    * Color of the icon.
@@ -57,6 +57,10 @@ const props = defineProps({
 });
 const emit = defineEmits(["click"]);
 
+const rawIcon = computed(() => {
+  return typeof props.icon === "object" && props.icon !== null ? markRaw(props.icon) : props.icon;
+});
+
 const isDisabled = computed(() => {
   if (props.disabled instanceof Function) {
     return props.disabled();
@@ -83,7 +87,7 @@ const clickEvent = () => {
     :data-selector="dataSelector"
     @click="clickEvent"
   >
-    <component :is="icon" />
+    <component :is="rawIcon" />
   </div>
 </template>
 
