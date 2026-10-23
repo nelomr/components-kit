@@ -10,6 +10,7 @@ A high-performance, modular monorepo engineered with **Vue 3**, **Vite+ (Rolldow
 [![Vite+](https://img.shields.io/badge/Vite+-1.3-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://viteplus.dev/)
 [![Storybook 10](https://img.shields.io/badge/Storybook-10.6-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](https://storybook.js.org/)
 [![Storybook Demo](https://img.shields.io/badge/Storybook-Live_Demo-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](https://nelomr.github.io/components-kit/)
+[![Deploy Storybook](https://github.com/nelomr/components-kit/actions/workflows/deploy-storybook.yml/badge.svg)](https://github.com/nelomr/components-kit/actions/workflows/deploy-storybook.yml)
 [![Vitest 5](https://img.shields.io/badge/Vitest-5.x-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
 [![pnpm](https://img.shields.io/badge/pnpm-11.28-F69220?style=for-the-badge&logo=pnpm&logoColor=white)](https://pnpm.io/)
 [![Lerna 10](https://img.shields.io/badge/Lerna-10.1-9333EA?style=for-the-badge&logo=lerna&logoColor=white)](https://lerna.js.org/)
@@ -19,6 +20,7 @@ A high-performance, modular monorepo engineered with **Vue 3**, **Vite+ (Rolldow
 
 <br/>
 
+[**🌐 Live Storybook**](https://nelomr.github.io/components-kit/) •
 [**Explore Components**](#-component-catalog) •
 [**Quick Start**](#-quick-start) •
 [**Storybook 10**](#-storybook-workbench) •
@@ -256,6 +258,9 @@ Open your browser at **`http://localhost:6006`** to explore stories, test contro
 ## 📖 Storybook Workbench
 
 The repository includes a modern **Storybook 10.6** environment tailored for Vue 3 and Vite+:
+
+> 🌐 **Live Documentation Portal**: **[https://nelomr.github.io/components-kit/](https://nelomr.github.io/components-kit/)**
+> Deployed automatically via GitHub Actions on every push to `main`.
 
 - ⚡ **Lightning-Fast Startup**: Powered by Vite+ and Rolldown for near-instant builds.
 - 🎨 **Component Theming**: Interactive color variables and component theme testing directly in stories.
