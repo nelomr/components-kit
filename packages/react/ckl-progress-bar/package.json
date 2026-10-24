@@ -1,0 +1,30 @@
+{
+  "name": "@components-kit/react-ckl-progress-bar",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Linear progress bar with status color thresholds for React",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./src": "./src/index.js"
+  },
+  "scripts": {
+    "build": "kit-cli build",
+    "test": "kit-cli test",
+    "test:watch": "kit-cli-react test --watch",
+    "lint": "vp lint src"
+  },
+  "dependencies": {
+    "@components-kit/core": "*"
+  },
+  "devDependencies": {
+    "@components-kit/tooling": "*"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  }
+}

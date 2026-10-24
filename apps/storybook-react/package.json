@@ -1,0 +1,41 @@
+{
+  "name": "@components-kit/storybook-react",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev -p 6007 --host localhost --no-open",
+    "build": "storybook build"
+  },
+  "dependencies": {
+    "@components-kit/assets": "*",
+    "@components-kit/core": "*",
+    "@components-kit/react-ckl-badge": "*",
+    "@components-kit/react-ckl-barometer-chart": "*",
+    "@components-kit/react-ckl-breadcrumb": "*",
+    "@components-kit/react-ckl-carousel": "*",
+    "@components-kit/react-ckl-horizontal-tabs": "*",
+    "@components-kit/react-ckl-icon": "*",
+    "@components-kit/react-ckl-loader": "*",
+    "@components-kit/react-ckl-pagination": "*",
+    "@components-kit/react-ckl-progress-bar": "*",
+    "@components-kit/react-ckl-side-nav": "*",
+    "@components-kit/react-ckl-slides": "*",
+    "@components-kit/react-ckl-tooltip": "*",
+    "@components-kit/react-ckl-truncate-text": "*",
+    "@components-kit/react-ckl-vertical-tabs": "*",
+    "@components-kit/storybook-shared": "*",
+    "@components-kit/styles": "*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-designs": "^12.0.0",
+    "@storybook/addon-docs": "^10.6.3",
+    "@storybook/react": "^10.6.3",
+    "@storybook/react-vite": "^10.6.3",
+    "sass": "^1.85.0",
+    "storybook": "^10.6.3",
+    "vite": "catalog:"
+  }
+}

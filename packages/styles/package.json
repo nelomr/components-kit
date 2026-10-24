@@ -1,0 +1,27 @@
+{
+  "name": "@components-kit/styles",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Design tokens, SCSS mixins and the compiled component stylesheets shared by the Vue and React packages",
+  "license": "MIT",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./src/index.scss",
+    "./scss": "./src/index.scss",
+    "./scss/all": "./src/all.scss",
+    "./scss/components/*": "./src/components/*.scss",
+    "./css": "./dist/ckl.css",
+    "./css/*": "./dist/components/*.css"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "lint": "vp lint scripts"
+  },
+  "devDependencies": {
+    "sass": "^1.85.0"
+  }
+}

@@ -1,10 +1,10 @@
-# ⚡ The Definitive Guide to Vite+ (Vite Plus)
+# The Definitive Guide to Vite+ (Vite Plus)
 
 This guide documents the architecture, tools, CLI commands, and developer workflows for the **Components Kit** monorepo using **Vite+ (`vp`) 1.3** as our unified native toolchain for development, bundling, testing, linting, and formatting.
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. [What is Vite+?](#1-what-is-vite)
 2. [Toolchain Components & Architecture](#2-toolchain-components--architecture)
@@ -50,6 +50,7 @@ npx vp toolchain
 ```
 
 Output:
+
 ```text
 vite-plus@1.3.0
 ├── depends on @voidzero-dev/vite-plus-core@1.3.0
@@ -70,14 +71,14 @@ vite-plus@1.3.0
 
 ### Component Breakdown & Responsibilities
 
-| Tool | Engine | Role in Monorepo |
-| :--- | :--- | :--- |
-| **Rolldown & Vite 8** | Rust / Oxc | Compiles all 14 component libraries (`packages/components/*`) into ESM and powers Storybook 10. |
-| **Vitest 5** | Rolldown / Vite | Executes 28 component test suites in headless JSDOM environments concurrently. |
-| **Oxlint** | Rust | Lints JavaScript, TypeScript, and Vue 3 SFCs across 76 files in **< 600ms**. |
-| **Oxfmt** | Rust | High-speed formatting for JS, TS, Vue, SCSS, JSON, and Markdown. |
-| **Vite Task** | Rust / C++ | Topologically executes monorepo tasks (`vp run -r <task>`) respecting workspace dependencies. |
-| **pnpm 11** | Hardlink store | Resolves and stores physical packages; manages workspace symlink graph. |
+| Tool                  | Engine          | Role in Monorepo                                                                                      |
+| :-------------------- | :-------------- | :---------------------------------------------------------------------------------------------------- |
+| **Rolldown & Vite 8** | Rust / Oxc      | Compiles all 28 Vue 3 & React 19 libraries (`packages/{vue,react}/*`) into ESM & powers Storybook 10. |
+| **Vitest 5**          | Rolldown / Vite | Executes 28 component test suites in headless JSDOM environments concurrently.                        |
+| **Oxlint**            | Rust            | Lints JavaScript, TypeScript, JSX, and Vue 3 SFCs in **< 600ms**.                                     |
+| **Oxfmt**             | Rust            | High-speed formatting for JS, JSX, TS, Vue, SCSS, JSON, and Markdown.                                 |
+| **Vite Task**         | Rust / C++      | Topologically executes monorepo tasks (`vp run -r <task>`) respecting workspace dependencies.         |
+| **pnpm 11**           | Hardlink store  | Resolves and stores physical packages; manages workspace symlink graph.                               |
 
 ---
 
@@ -86,7 +87,7 @@ vite-plus@1.3.0
 Central toolchain configuration lives in the monorepo root at [`vite.config.ts`](file:///Users/nelo/proyectos/components-kit/vite.config.ts):
 
 ```typescript
-import { defineConfig } from 'vite-plus';
+import { defineConfig } from "vite-plus";
 
 export default defineConfig({
   // Oxfmt formatting options
@@ -102,18 +103,20 @@ export default defineConfig({
 
   // Staged files hook for Git commits (replaces lint-staged)
   staged: {
-    '*.{js,mjs,ts,vue}': 'vp check --fix',
+    "*.{js,mjs,ts,vue,jsx}": "vp check --fix",
   },
 });
 ```
 
 ### Component Workspace Configuration
 
-Each individual UI component package relies on the central build runner defined in [`packages/components-kit/vite.config.mjs`](file:///Users/nelo/proyectos/components-kit/packages/components-kit/vite.config.mjs):
+Each individual UI component package relies on the central build runner defined in [`packages/tooling/vite.config.mjs`](file:///Users/nelo/proyectos/components-kit/packages/tooling/vite.config.mjs):
+
 - Uses `defineConfig` and `lazyPlugins` imported from `'vite-plus'`.
-- Configures `@vitejs/plugin-vue`, `vite-plugin-css-injected-by-js`, and `vite-svg-loader`.
+- Dynamically loads `@vitejs/plugin-vue` for Vue 3 packages or `@vitejs/plugin-react` for React 19 packages based on package dependencies.
+- Configures `vite-plugin-css-injected-by-js` and `vite-svg-loader`.
 - Uses modern Dart Sass (`api: 'modern-compiler'`) to compile SCSS tokens and mixins.
-- Generates pure tree-shakeable ES modules with externalized `vue` and `@components-kit/assets`.
+- Generates pure tree-shakeable ES modules with externalized `vue`, `react`, `react-dom`, and `@components-kit/assets`.
 
 ---
 
@@ -121,17 +124,26 @@ Each individual UI component package relies on the central build runner defined 
 
 You can run commands using either `pnpm <script>` or directly through the native `vp` CLI (`npx vp <command>`).
 
-### Development & Storybook
-Starts the Storybook 10 interactive component workbench with sub-second HMR:
+### Development & Storybook Composition
+
+Starts the Storybook 10 interactive component workbenches:
+
 ```bash
+# Launch ALL Storybooks in parallel (Portal at 6005, Vue at 6006, React at 6007)
 pnpm storybook:dev
-# Equivalent to:
-pnpm --filter storybook dev
+
+# Or launch independently:
+pnpm storybook:portal:dev    # Unified Composition Portal (Port 6005)
+pnpm storybook:vue:dev       # Vue 3 Storybook (Port 6006)
+pnpm storybook:react:dev     # React 19 Storybook (Port 6007)
 ```
-Access the catalog at: `http://localhost:6006`
+
+Access the unified Composition Portal at: `http://localhost:6005`
 
 ### Linting & Code Quality (`vp lint`)
+
 Oxlint runs in Rust, scanning the entire monorepo in **~580ms**:
+
 ```bash
 # Lint the entire monorepo
 pnpm lint
@@ -139,14 +151,17 @@ pnpm lint
 npx vp lint
 
 # Lint a specific component package or directory:
-npx vp lint packages/components/ckl-tooltip/src
+npx vp lint packages/vue/ckl-tooltip/src
+npx vp lint packages/react/ckl-tooltip/src
 
 # Automatically fix fixable rule violations:
 npx vp lint --fix
 ```
 
 ### Code Formatting (`vp fmt`)
+
 Oxfmt formats code in place at Rust speed without Node.js overhead:
+
 ```bash
 # Format all repository files in place:
 pnpm fmt
@@ -160,7 +175,9 @@ npx vp fmt --check
 ```
 
 ### Unified Gate (`vp check`)
+
 Runs formatting check, linting, and type checking in a single high-performance pass:
+
 ```bash
 # Run the complete check
 pnpm check
@@ -169,7 +186,9 @@ npx vp check --fix
 ```
 
 ### Unit Testing (`vp run -r test`)
+
 Executes all 28 Vitest 5 unit test suites in parallel:
+
 ```bash
 # Run all tests across the monorepo
 pnpm test
@@ -177,14 +196,16 @@ pnpm test
 npx vp run -r test
 
 # Run tests for a single package:
-pnpm --filter @components-kit/ckl-badge test
+pnpm --filter @components-kit/vue-ckl-badge test
 
 # Run tests in active watch mode:
-pnpm --filter @components-kit/ckl-badge test:watch
+pnpm --filter @components-kit/vue-ckl-badge test:watch
 ```
 
 ### Production Builds (`vp run -r build`)
+
 Builds all component distribution bundles (`dist/index.js`) and the static Storybook application:
+
 ```bash
 # Build all packages topologically
 pnpm build
@@ -192,11 +213,13 @@ pnpm build
 npx vp run -r build
 
 # Build a single package:
-pnpm --filter @components-kit/ckl-badge build
+pnpm --filter @components-kit/vue-ckl-badge build
 ```
 
 ### Package Management & Dependencies
+
 Vite+ provides a unified wrapper around your underlying package manager (**pnpm**):
+
 ```bash
 # Install all workspace dependencies
 npx vp install
@@ -204,7 +227,7 @@ npx vp install
 pnpm install
 
 # Add a runtime dependency to a specific package
-npx vp add lodash-es --filter @components-kit/ckl-badge
+npx vp add lodash-es --filter @components-kit/vue-ckl-badge
 
 # Add a development dependency to the monorepo root
 npx vp add -D -w @types/node
@@ -238,8 +261,8 @@ Vite+ contains a native monorepo task runner called **Vite Task**. It provides:
 2. **Parallel Concurrency**: Automatically distributes independent tasks across all available CPU cores.
 3. **Powerful Filtering Patterns**:
    - `vp run -r <task>`: Runs recursively across all packages in the workspace.
-   - `vp run -F @components-kit/ckl-* build`: Targets only packages matching the glob.
-   - `vp run -F ./packages/components/ckl-icon... test`: Targets `ckl-icon` and all packages that depend on it.
+   - `vp run -F @components-kit/vue-ckl-* build`: Targets only packages matching the glob.
+   - `vp run -F ./packages/vue/ckl-icon... test`: Targets `ckl-icon` and all packages that depend on it.
    - `vp run --last-details`: Displays a detailed timing summary of the previous run.
 
 ---
@@ -247,12 +270,14 @@ Vite+ contains a native monorepo task runner called **Vite Task**. It provides:
 ## 6. Migration from Legacy ESLint / Stylelint / Prettier
 
 ### Problems in the Legacy Architecture:
+
 1. **Tooling Redundancy**: 16 separate `.eslintrc.json` files and an internal package (`packages/eslint-config-components`).
 2. **Slow Execution**: Traditional ESLint took 5–10 seconds to spin up multiple Node.js worker processes across the monorepo.
 3. **Ghost Stylelint**: Stylelint was listed in dependencies but had no configuration file (`.stylelintrc`), causing errors when run independently.
 4. **Heavy Lockfile**: Over 240 transitive dependencies existed solely to support legacy ESLint AST parsers and Prettier bridges.
 
 ### Improvements with Native Vite+:
+
 - **240 Obsolete Packages Removed**: Purged AST plugins, Stylelint configurations, and Prettier wrappers from `pnpm-lock.yaml` and `node_modules`.
 - **Instant Linting**: Monorepo linting dropped from ~8 seconds to **~580ms** with Oxlint in Rust.
 - **Zero Duplicated Configs**: Removed all 16 `.eslintrc.json` files. Quality settings are maintained centrally in [`vite.config.ts`](file:///Users/nelo/proyectos/components-kit/vite.config.ts).

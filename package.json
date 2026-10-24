@@ -1,14 +1,17 @@
 {
   "name": "components-kit",
   "version": "1.0.0",
-  "license": "MIT",
   "private": true,
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "prepare": "vp hooks enable",
     "lint": "vp lint",
     "fmt": "vp fmt",
     "fmt:check": "vp fmt --check",
-    "check": "vp check",
+    "check": "vp check && node scripts/check-workspace.mjs",
     "test": "vp run -r test",
     "build": "vp run -r build",
     "graph": "nx graph",
@@ -17,38 +20,27 @@
     "publish:package": "echo 'Publishing is disabled: all packages in this repository are private'",
     "internal:publish:package": "echo 'Publishing disabled for this template repository'",
     "lerna:clean": "lerna clean",
-    "storybook:dev": "pnpm --filter storybook dev",
-    "storybook:build": "pnpm --filter storybook build",
-    "build-storybook": "pnpm --filter storybook build"
+    "storybook:dev": "concurrently -k --names \"VUE,REACT,PORTAL\" -c \"green.bold,magenta.bold,cyan.bold\" \"pnpm storybook:vue:dev\" \"pnpm storybook:react:dev\" \"wait-on tcp:6006 tcp:6007 && pnpm storybook:portal:dev\"",
+    "storybook:vue:dev": "pnpm --filter @components-kit/storybook-vue dev",
+    "storybook:react:dev": "pnpm --filter @components-kit/storybook-react dev",
+    "storybook:portal:dev": "pnpm --filter @components-kit/storybook-portal dev",
+    "storybook:build": "pnpm --filter @components-kit/styles build && pnpm --filter @components-kit/storybook-vue build && pnpm --filter @components-kit/storybook-react build && pnpm --filter @components-kit/storybook-portal build && rm -rf apps/storybook-portal/storybook-static/vue apps/storybook-portal/storybook-static/react && cp -r apps/storybook-vue/storybook-static apps/storybook-portal/storybook-static/vue && cp -r apps/storybook-react/storybook-static apps/storybook-portal/storybook-static/react && touch apps/storybook-portal/storybook-static/.nojekyll",
+    "storybook:vue:build": "pnpm --filter @components-kit/storybook-vue build",
+    "storybook:react:build": "pnpm --filter @components-kit/storybook-react build",
+    "build-storybook": "pnpm run storybook:build"
   },
-  "packageManager": "pnpm@11.28.4",
   "devDependencies": {
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
+    "concurrently": "^9.1.2",
     "lerna": "^10.1.1",
     "nx": "^23.3.0",
-    "vite-plus": "catalog:"
-  },
-  "workspaces": {
-    "packages": [
-      "apps/storybook",
-      "packages/assets",
-      "packages/components/*",
-      "packages/components-kit"
-    ]
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "vite-plus": "catalog:",
+    "wait-on": "^9.5.1"
   },
   "engines": {
     "node": ">=24.0.0",
     "pnpm": ">=11.0.0"
   },
-  "dependencies": {
-    "@humanwhocodes/object-schema": "^2.0.2"
-  },
-  "resolutions": {
-    "undici": "^7.29.1",
-    "postcss-selector-parser": "^7.1.6"
-  }
+  "packageManager": "pnpm@11.28.4"
 }

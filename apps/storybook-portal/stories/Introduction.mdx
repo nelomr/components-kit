@@ -1,0 +1,119 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Docs/Introduction" />
+
+<div className="ckl-intro">
+  {/* --- Hero Banner --- */}
+  <header className="ckl-intro__hero">
+    <div className="ckl-intro__subtitle">Components Kit • Dual-Framework UI System</div>
+    <div className="ckl-intro__lead">
+      A high-performance design system delivering 14 standalone atomic UI packages for both <b>Vue 3</b> and <b>React 19</b>. Engineered with modular pnpm workspaces, single-source CSS custom properties, zero-re-render optimizations, and WCAG 2.1 AA accessibility standards.
+    </div>
+    <div className="ckl-intro__tags">
+      <span className="ckl-intro__tag ckl-intro__tag--vue">Vue 3.x</span>
+      <span className="ckl-intro__tag ckl-intro__tag--vue" style={{ background: '#087ea4', color: '#fff' }}>React 19.x</span>
+      <span className="ckl-intro__tag ckl-intro__tag--storybook">Storybook 10.6</span>
+      <span className="ckl-intro__tag ckl-intro__tag--vite">Vite+</span>
+      <span className="ckl-intro__tag ckl-intro__tag--vitest">Vitest 5</span>
+      <span className="ckl-intro__tag ckl-intro__tag--a11y">WCAG 2.1 AA</span>
+      <span className="ckl-intro__tag ckl-intro__tag--sass">Dart Sass</span>
+    </div>
+  </header>
+
+{/* --- Interactive Framework Switcher Banner --- */}
+
+<div style={{
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: '20px',
+  marginTop: '32px',
+  marginBottom: '40px'
+}}>
+  <div style={{
+    background: '#f0fdf4',
+    border: '1px solid #bbf7d0',
+    borderRadius: '12px',
+    padding: '24px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px'
+  }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M2 3h3.5L12 14 18.5 3H22L12 21 2 3z" fill="#41B883"/>
+        <path d="M6.5 3h3L12 8l2.5-5h3L12 13 6.5 3z" fill="#34495E"/>
+      </svg>
+      <h3 style={{ margin: 0, color: '#166534', fontSize: '18px' }}>Vue 3 Components</h3>
+    </div>
+    <div style={{ margin: 0, color: '#15803d', fontSize: '14px', lineHeight: '1.5' }}>
+      Built with Vue 3 Composition API, script setup syntax, and reactive slots.
+    </div>
+    <div className="ckl-intro__terminal">
+      <span className="ckl-intro__terminal-prompt">$</span>
+      <span className="ckl-intro__terminal-cmd">pnpm add</span>
+      <span className="ckl-intro__terminal-pkg ckl-intro__terminal-pkg--vue">@components-kit/vue-ckl-[name]</span>
+    </div>
+  </div>
+
+  <div style={{
+    background: '#eff6ff',
+    border: '1px solid #bfdbfe',
+    borderRadius: '12px',
+    padding: '24px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px'
+  }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <svg width="24" height="24" viewBox="-11.5 -10.23174 23 20.46348" fill="none" stroke="#00d8ff" strokeWidth="1">
+        <ellipse rx="11" ry="4.2"/>
+        <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
+        <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
+        <circle r="2" fill="#00d8ff"/>
+      </svg>
+      <h3 style={{ margin: 0, color: '#1e40af', fontSize: '18px' }}>React 19 Components</h3>
+    </div>
+    <div style={{ margin: 0, color: '#1d4ed8', fontSize: '14px', lineHeight: '1.5' }}>
+      Built with React 19, React.memo, pure compute hooks, and zero re-render cascades.
+    </div>
+    <div className="ckl-intro__terminal">
+      <span className="ckl-intro__terminal-prompt">$</span>
+      <span className="ckl-intro__terminal-cmd">pnpm add</span>
+      <span className="ckl-intro__terminal-pkg ckl-intro__terminal-pkg--react">@components-kit/react-ckl-[name]</span>
+    </div>
+  </div>
+</div>
+
+<div
+  style={{
+    background: "#f8fafc",
+    border: "1px solid #e2e8f0",
+    borderRadius: "12px",
+    padding: "16px 20px",
+    marginBottom: "32px",
+  }}
+>
+  <h4 style={{ margin: "0 0 8px 0", fontSize: "15px", color: "#0f172a" }}>
+    Global Stylesheet (Required for Consumers)
+  </h4>
+  <p style={{ margin: "0 0 12px 0", fontSize: "13px", color: "#475569", lineHeight: 1.5 }}>
+    {
+      "Components ship pure markup without inline CSS injection. Import the global CSS stylesheet once in your application root:"
+    }
+  </p>
+  <div className="ckl-intro__terminal" style={{ margin: 0 }}>
+    <span className="ckl-intro__terminal-cmd">import</span>
+    <span className="ckl-intro__terminal-pkg" style={{ color: "#f59e0b" }}>
+      "@components-kit/styles/css";
+    </span>
+  </div>
+</div>
+
+<h2 className="ckl-intro__section-title">Composed Component Catalog</h2>
+<div className="ckl-intro__section-desc">
+  Explore both library implementations directly from the sidebar on the left: select{" "}
+  <b>Vue 3 Components</b> or <b>React 19 Components</b> to test interactive stories, props, and live
+  controls.
+</div>
+
+</div>

@@ -1,0 +1,99 @@
+@use "sass:meta";
+
+$iconColorMap: () !default;
+
+@mixin build-icon-color-class($map, $prefix: "") {
+  @each $name, $value in $map {
+    @if (meta.type-of($value) == "map") {
+      @include build-icon-color-class($value, $name);
+    } @else {
+      @if not ($prefix == "") and ($name == default) {
+        $name: $prefix;
+      } @else {
+        $color-prefix: $prefix;
+        @if not ($prefix == "") {
+          $color-prefix: $color-prefix + "-";
+        }
+        $name: $color-prefix + $name;
+      }
+
+      $color-name: "--" + #{$name};
+      $rgb-name: #{$name} + "-rgb";
+      $rgb-name-var-name: "--" + #{$rgb-name};
+
+      &-#{"" + $name} {
+        color: var(#{$color-name});
+      }
+
+      &-#{$rgb-name} {
+        color: rgba(var(#{$rgb-name-var-name}));
+      }
+    }
+  }
+}
+
+.ial-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  &--size {
+    &-default {
+      font-size: 24px;
+    }
+
+    &-small {
+      font-size: 18px;
+    }
+
+    &-xsmall {
+      font-size: 12px;
+    }
+
+    &-medium {
+      font-size: 32px;
+    }
+
+    &-large {
+      font-size: 40px;
+    }
+
+    &-xlarge {
+      font-size: 60px;
+    }
+
+    &-big {
+      font-size: 96px;
+    }
+  }
+
+  &--color {
+    @include build-icon-color-class($iconColorMap);
+  }
+
+  &--disabled {
+    opacity: 0.4;
+    cursor: initial;
+
+    svg {
+      filter: grayscale(100%);
+    }
+  }
+
+  &--cursor-pointer:not(.ial-icon--disabled) {
+    cursor: pointer;
+  }
+
+  &--cursor-default {
+    cursor: default;
+  }
+}

@@ -1,0 +1,191 @@
+@use "sass:color";
+@use "sass:map";
+@use "sass:meta";
+
+$colors: (
+  primary: (
+    default: #244a8a,
+    600: #193666,
+    500: #244a8a,
+    400: #4f72ad,
+    300: #88a3d1,
+    200: #c2d1ea,
+    100: #edf3fb,
+  ),
+  secondary: (
+    default: #647b99,
+    600: #4b617c,
+    500: #647b99,
+    400: #899cb4,
+    300: #b5c2d3,
+    200: #dce3ed,
+    100: #f3f6fa,
+  ),
+  grey: (
+    default: #64748b,
+    600: #475569,
+    500: #64748b,
+    400: #94a3b8,
+    300: #cbd5e1,
+    200: #e2e8f0,
+    100: #f1f5f9,
+  ),
+  info: (
+    default: #38bdf8,
+    600: #0284c7,
+    500: #38bdf8,
+    400: #7dd3fc,
+    300: #bae6fd,
+    200: #e0f2fe,
+    100: #f0f9ff,
+  ),
+  success: (
+    default: #10b981,
+    700: #047857,
+    600: #059669,
+    500: #10b981,
+    400: #34d399,
+    300: #6ee7b7,
+    200: #a7f3d0,
+    100: #ecfdf5,
+  ),
+  warning: (
+    default: #f59e0b,
+    700: #b45309,
+    600: #d97706,
+    500: #f59e0b,
+    400: #fbbf24,
+    300: #fcd34d,
+    200: #fde68a,
+    100: #fef3c7,
+  ),
+  error: (
+    default: #ef4444,
+    600: #dc2626,
+    500: #ef4444,
+    400: #f87171,
+    300: #fca5a5,
+    200: #fecaca,
+    100: #fef2f2,
+  ),
+  clear: (
+    default: #f8fafc,
+    700: #f1f5f9,
+    600: #f8fafc,
+    500: #ffffff,
+    400: rgb(255 255 255 / 40%),
+    300: rgb(255 255 255 / 24%),
+    200: rgb(255 255 255 / 12%),
+  ),
+  purple: (
+    default: #8b5cf6,
+    700: #5b21b6,
+    600: #7c3aed,
+    500: #8b5cf6,
+    400: #a78bfa,
+    300: #c4b5fd,
+    200: #ddd6fe,
+    100: #f5f3ff,
+  ),
+  mid-blue: (
+    default: #2563eb,
+    700: #1d4ed8,
+    600: #2563eb,
+    500: #3b82f6,
+    400: #60a5fa,
+    300: #93c5fd,
+    200: #bfdbfe,
+    100: #eff6ff,
+  ),
+  transparent: (
+    default: transparent,
+  ),
+  white: #fff,
+
+  new-brand: (
+    default: #2563eb,
+    500: #2563eb,
+    400: #60a5fa,
+    300: #93c5fd,
+    200: #bfdbfe,
+    100: #eff6ff,
+  ),
+);
+
+@function get-color($color, $gradient: null) {
+  $color-map: map.get($colors, $color);
+
+  @if not (meta.type-of($color-map) == "map") {
+    @return $color-map;
+  }
+
+  $key: default !default;
+
+  @if $gradient {
+    $key: $gradient;
+  }
+
+  @return map.get($colorMap, $key);
+}
+
+@mixin css-var($map, $prefix: "") {
+  @each $name, $value in $map {
+    @if meta.type-of($value) == "map" {
+      @include css-var($value, $name);
+    } @else {
+      @if not ($prefix == "") and ($name == default) {
+        $name: $prefix;
+      } @else {
+        $color-prefix: $prefix;
+
+        @if not ($prefix == "") {
+          $color-prefix: $color-prefix + "-";
+        }
+
+        $name: $color-prefix + $name;
+      }
+
+      $color-name: "--" + #{$name};
+      $rgb-name: "--" + #{$name} + "-rgb";
+      $col: #e1d7d2;
+
+      #{$color-name}: #{$value};
+      #{$rgb-name}: #{color.channel($value, "red", $space: rgb),
+          color.channel($value, "green", $space: rgb), color.channel($value, "blue", $space: rgb)};
+    }
+  }
+}
+
+@mixin build-icon-color-class($map, $prefix: "") {
+  @each $name, $value in $map {
+    @if (meta.type-of($value) == "map") {
+      @include build-icon-color-class($value, $name);
+    } @else {
+      @if not ($prefix == "") and ($name == default) {
+        $name: $prefix;
+      } @else {
+        $color-prefix: $prefix;
+
+        @if not ($prefix == "") {
+          $color-prefix: $color-prefix + "-";
+        }
+
+        $name: $color-prefix + $name;
+      }
+
+      &-#{"" + $name} {
+        color: var(--#{"" + $name});
+      }
+    }
+  }
+}
+
+.ial-icon {
+  &--color {
+    @include build-icon-color-class($colors);
+  }
+}
+
+:root {
+  @include css-var($colors);
+}

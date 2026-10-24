@@ -1,4 +1,4 @@
-# ⚡ The Definitive Monorepo Guide: Lerna 10 + Nx Workspaces
+# The Definitive Monorepo Guide: Lerna 10 + Nx Workspaces
 
 <div align="center">
 
@@ -11,13 +11,13 @@
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D24-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 
 **Engineering guide, architecture overview, and developer workflows for Components Kit.**  
-*Everything you need to know from your initial `git clone` to authoring, testing, and releasing components.*
+_Everything you need to know from your initial `git clone` to authoring, testing, and releasing components._
 
 </div>
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. [What is this Monorepo and How Does Lerna 10 Work?](#1-what-is-this-monorepo-and-how-does-lerna-10-work)
    - [The Lerna 10 + Nx Engine Alliance](#the-lerna-10--nx-engine-alliance)
@@ -56,12 +56,15 @@
 A **monorepo** is a single Git repository containing multiple distinct yet collaborative projects or packages with clear boundaries.
 
 In `components-kit`, we host:
-* **14 Atomic UI Component Libraries** (`packages/components/ckl-*`)
-* **1 Curated SVG Icon & Asset Package** (`packages/assets`)
-* **1 Shared SCSS Styling Mixins Package** (`packages/styles`)
-* **1 Unified Build & Test Engine powered by Vite+ & Rolldown** (`packages/components-kit`)
-* **1 Visual Storybook 10 Application** (`apps/storybook`)
-* **Vite+ Unified Toolchain** (`vite.config.ts` powered by Oxlint, Oxfmt, Vitest 5, and Vite Task)
+
+- **14 Atomic UI Component Libraries for Vue 3** (`packages/vue/ckl-*`)
+- **14 Atomic UI Component Libraries for React 19** (`packages/react/ckl-*`)
+- **1 Curated SVG Icon & Asset Package** (`packages/assets`) with dual Vue & React `IalIcon` exports
+- **1 Shared SCSS Styling Mixins Package** (`packages/styles`)
+- **1 Pure Mathematical & Event Helpers Package** (`packages/core`)
+- **1 Unified Build & Test Engine powered by Vite+ & Rolldown** (`packages/tooling`)
+- **3-Tier Storybook 10 Composition Portal** (`apps/storybook-portal`, `apps/storybook-vue`, `apps/storybook-react`)
+- **Vite+ Unified Toolchain** (`vite.config.ts` powered by Oxlint, Oxfmt, Vitest 5, and Vite Task)
 
 ### The Lerna 10 + Nx Engine Alliance
 
@@ -69,18 +72,18 @@ Historically, Lerna executed tasks sequentially and suffered from performance bo
 
 ```mermaid
 flowchart TD
-    User["👨‍💻 Developer executes: pnpm test"]
-    Lerna["📦 Lerna 10 (CLI & Versioning)"]
-    Nx["⚡ Nx Engine (Task Orchestrator)"]
-    Graph["🕸️ Project Dependency Graph"]
-    Cache["💾 Computation Cache (.nx/cache)"]
-    Exec["🚀 Parallel Task Execution (Vite+ & Rolldown)"]
+    User["Developer executes: pnpm test"]
+    Lerna["Lerna 10 (CLI & Versioning)"]
+    Nx["Nx Engine (Task Orchestrator)"]
+    Graph["Project Dependency Graph"]
+    Cache["Computation Cache (.nx/cache)"]
+    Exec["Parallel Task Execution (Vite+ & Rolldown)"]
 
     User --> Lerna
     Lerna --> Nx
     Nx --> Graph
     Nx --> Cache
-    Cache -->|Hash matches previous run?| Instant["⚡ Instant replay from cache (< 50ms)"]
+    Cache -->|Hash matches previous run?| Instant["Instant replay from cache (< 50ms)"]
     Cache -->|Code or inputs changed?| Exec
 ```
 
@@ -103,22 +106,28 @@ The workspace structure is defined in [pnpm-workspace.yaml](file:///Users/nelo/p
 
 ```yaml
 packages:
-  - 'apps/storybook'
-  - 'packages/assets'
-  - 'packages/components/*'
-  - 'packages/components-kit'
+  - "apps/*"
+  - "packages/assets"
+  - "packages/styles"
+  - "packages/core"
+  - "packages/vue/*"
+  - "packages/react/*"
+  - "packages/tooling"
 
 linkWorkspacePackages: true
 preferWorkspacePackages: true
 ```
 
 #### The Superpower: Local Symlinks & Strict Isolation
+
 When a component package needs to use icons from `@components-kit/assets`, its `package.json` specifies:
+
 ```json
 "dependencies": {
   "@components-kit/assets": "*"
 }
 ```
+
 pnpm **never downloads this from npm**: it creates a direct local filesystem symlink to `packages/assets`. When you edit an icon in `packages/assets`, all components and Storybook reflect the change instantly with sub-second Vite+ HMR! Unlike legacy package managers, pnpm prevents "phantom dependencies" through content-addressable storage and isolated symlink trees.
 
 ---
@@ -143,16 +152,19 @@ In [nx.json](file:///Users/nelo/proyectos/components-kit/nx.json), caching is co
 ```
 
 #### How Does Nx Know What Changed?
+
 Nx computes a **cryptographic hash** combining:
+
 1. The exact source code of the package.
 2. The code of any local workspace dependencies imported by that package.
 3. The Node.js runtime version, OS architecture, and environment configuration.
 
-* If the calculated hash matches a previous run: **it skips execution entirely**, restoring generated outputs and logs from `.nx/cache` in **< 50ms**.
-* If you edit one line in `ckl-button`: Nx will only execute tasks for `ckl-button` and packages that directly depend on it. Everything else is retrieved from cache.
+- If the calculated hash matches a previous run: **it skips execution entirely**, restoring generated outputs and logs from `.nx/cache` in **< 50ms**.
+- If you edit one line in `ckl-button`: Nx will only execute tasks for `ckl-button` and packages that directly depend on it. Everything else is retrieved from cache.
 
 > [!TIP]
 > If you ever need to bypass the cache and force a clean re-execution, append `--skip-nx-cache`:
+>
 > ```bash
 > pnpm build --skip-nx-cache
 > ```
@@ -168,11 +180,13 @@ pnpm graph
 ```
 
 This launches a local web server in your browser where you can:
-* Focus on a specific component to see everything that imports it or depends on it.
-* Trace the critical path for builds.
-* Identify circular dependencies before they cause runtime problems.
+
+- Focus on a specific component to see everything that imports it or depends on it.
+- Trace the critical path for builds.
+- Identify circular dependencies before they cause runtime problems.
 
 To export the graph as a static JSON file (useful for CI/CD audit pipelines):
+
 ```bash
 pnpm graph --file=dist/graph.json
 ```
@@ -185,14 +199,14 @@ pnpm graph --file=dist/graph.json
 
 These commands run across **every package in the monorepo** in parallel using the Nx engine:
 
-| Command | Action | Description |
-| :--- | :--- | :--- |
-| `pnpm build` | **Build All** | Builds all 14 components and the Storybook app in topological order via Rolldown (`vp run -r build`). |
-| `pnpm test` | **Test All** | Executes all 28 Vitest 5 test suites in parallel across the monorepo (`vp run -r test`). |
-| `pnpm lint` | **Lint All** | Runs Oxlint across all files in the monorepo in < 700ms (`vp lint`). |
-| `pnpm fmt` | **Format All** | Formats code in place using Oxfmt (`vp fmt`). |
-| `pnpm check` | **Unified Check** | Runs formatting, linting, and type checking in a single pass (`vp check`). |
-| `pnpm storybook:dev` | **Dev Environment** | Starts the interactive Storybook catalog at `http://localhost:6006`. |
+| Command              | Action              | Description                                                                                           |
+| :------------------- | :------------------ | :---------------------------------------------------------------------------------------------------- |
+| `pnpm build`         | **Build All**       | Builds all 14 components and the Storybook app in topological order via Rolldown (`vp run -r build`). |
+| `pnpm test`          | **Test All**        | Executes all 28 Vitest 5 test suites in parallel across the monorepo (`vp run -r test`).              |
+| `pnpm lint`          | **Lint All**        | Runs Oxlint across all files in the monorepo in < 700ms (`vp lint`).                                  |
+| `pnpm fmt`           | **Format All**      | Formats code in place using Oxfmt (`vp fmt`).                                                         |
+| `pnpm check`         | **Unified Check**   | Runs formatting, linting, and type checking in a single pass (`vp check`).                            |
+| `pnpm storybook:dev` | **Dev Environment** | Starts the interactive Storybook catalog at `http://localhost:6006`.                                  |
 
 ---
 
@@ -201,33 +215,39 @@ These commands run across **every package in the monorepo** in parallel using th
 Suppose you are actively working on `ckl-badge`. You do not need to run tests or build all 13 other packages every few seconds. You have 3 convenient ways to target only `ckl-badge`:
 
 #### Method 1: Via Lerna `--scope` (Recommended from Root)
+
 From the monorepo root:
+
 ```bash
 # Run tests only for ckl-badge
-pnpm lerna run test --scope=@components-kit/ckl-badge
+pnpm lerna run test --scope=@components-kit/vue-ckl-badge
 
 # Build only ckl-badge
-pnpm lerna run build --scope=@components-kit/ckl-badge
+pnpm lerna run build --scope=@components-kit/vue-ckl-badge
 
 # Lint only ckl-badge
-pnpm lerna run lint --scope=@components-kit/ckl-badge
+pnpm lerna run lint --scope=@components-kit/vue-ckl-badge
 ```
 
 #### Method 2: Via pnpm `--filter` (Ideal for Watch Mode)
+
 pnpm lets you filter and invoke any package's internal scripts directly:
+
 ```bash
 # Watch mode: re-runs tests instantly as you modify code
-pnpm --filter @components-kit/ckl-badge test:watch
+pnpm --filter @components-kit/vue-ckl-badge test:watch
 
 # Build the package distribution directly
-pnpm --filter @components-kit/ckl-badge build
+pnpm --filter @components-kit/vue-ckl-badge build
 ```
 
 #### Method 3: Via Nx Direct Command
+
 Nx resolves workspace project names directly:
+
 ```bash
-pnpm nx test @components-kit/ckl-badge
-pnpm nx build @components-kit/ckl-badge
+pnpm nx test @components-kit/vue-ckl-badge
+pnpm nx build @components-kit/vue-ckl-badge
 ```
 
 ---
@@ -241,7 +261,7 @@ Lerna 10 provides flexible filtering options:
 pnpm lerna run test --since=origin/main
 
 # Run tasks on matching packages using a wildcard
-pnpm lerna run build --scope="@components-kit/ckl-*-tabs"
+pnpm lerna run build --scope="@components-kit/vue-ckl-*-tabs"
 
 # Run tasks on all packages EXCEPT one
 pnpm lerna run test --ignore=storybook
@@ -255,15 +275,16 @@ Let's walk through creating a brand new component named **`ckl-avatar`** followi
 
 ### Step 1: Create the Directory Structure
 
-Inside `packages/components/`, create the `ckl-avatar` folder and its `src/` subfolder:
+Inside `packages/vue/` (or `packages/react/` for React), create the `ckl-avatar` folder and its `src/` subfolder:
 
 ```bash
-mkdir -p packages/components/ckl-avatar/src
+mkdir -p packages/vue/ckl-avatar/src
 ```
 
 The resulting package layout should match:
+
 ```text
-packages/components/ckl-avatar/
+packages/vue/ckl-avatar/
 ├── README.md
 ├── package.json
 └── src/
@@ -277,11 +298,11 @@ packages/components/ckl-avatar/
 
 ### Step 2: Configure the Component's package.json
 
-Create `packages/components/ckl-avatar/package.json`:
+Create `packages/vue/ckl-avatar/package.json`:
 
 ```json
 {
-  "name": "@components-kit/ckl-avatar",
+  "name": "@components-kit/vue-ckl-avatar",
   "version": "1.0.0",
   "type": "module",
   "main": "./src/index.js",
@@ -297,7 +318,7 @@ Create `packages/components/ckl-avatar/package.json`:
     "lint": "vp lint src"
   },
   "devDependencies": {
-    "@components-kit/components-kit": "*"
+    "@components-kit/tooling": "*"
   },
   "private": true,
   "license": "MIT"
@@ -305,15 +326,15 @@ Create `packages/components/ckl-avatar/package.json`:
 ```
 
 > [!NOTE]
-> Notice how `"@components-kit/components-kit": "*"` provides the central `kit-cli` tool (Vite + Vitest) without needing to configure bundlers from scratch, while linting is handled natively by Vite+ via `vp lint src` without requiring any local `.eslintrc.json` file.
+> Notice how `"@components-kit/tooling": "*"` provides the central `kit-cli` tool (Vite + Vitest) without needing to configure bundlers from scratch, while linting is handled natively by Vite+ via `vp lint src` without requiring any local `.eslintrc.json` file.
 
 ---
 
 ### Step 3: Author the Vue 3 Component (`.vue`)
 
-Create `packages/components/ckl-avatar/src/ckl-avatar.vue`:
+Create `packages/vue/ckl-avatar/src/ckl-avatar.vue`:
 
-```vue
+````vue
 <script setup>
 import { computed } from "vue";
 
@@ -351,26 +372,31 @@ const classes = computed(() => [
   <div :class="classes" role="img" :aria-label="alt" @click="emit('click')">
     <img v-if="src" :src="src" :alt="alt" class="ckl-avatar__image" />
     <span v-else class="ckl-avatar__fallback">
-      <slot>👤</slot>
+      <slot><ial-icon icon="ial-user" size="small" /></slot>
     </span>
   </div>
 </template>
 
-<style lang="scss">
-@import "./ckl-avatar.scss";
-</style>
-```
+```vue
+<!-- Pure UI component: no <style> block, no business logic -->
+<template>
+  <div :class="avatarClasses">
+    <img v-if="src" :src="src" :alt="alt" class="ckl-avatar__image" />
+    <span v-else class="ckl-avatar__fallback">{{ initials }}</span>
+  </div>
+</template>
+````
 
 ---
 
-### Step 4: SCSS Styling & Design Tokens (`.scss`)
+### Step 4: SCSS Styling in `@components-kit/styles`
 
-Create `packages/components/ckl-avatar/src/ckl-avatar.scss`.  
-Use the shared `default-styles` mixin from `packages/styles` so consumers can override CSS custom properties easily:
+Component stylesheets are centralized in `packages/styles` so that components ship zero CSS and consumers can import styles globally:
+
+1. Create `packages/styles/src/components/_ckl-avatar.scss`.
+2. Use the shared `default-styles` mixin:
 
 ```scss
-@import "@components-kit/styles/src/mixins.scss";
-
 $avatar-defaults: (
   "size-small": 32px,
   "size-medium": 48px,
@@ -425,7 +451,7 @@ $avatar-defaults: (
 
 ### Step 5: Exporting Entry Point (`index.js`)
 
-Create `packages/components/ckl-avatar/src/index.js`.  
+Create `packages/vue/ckl-avatar/src/index.js`.  
 This exports the component as both a named ESM export and a Vue plugin (`app.use`):
 
 ```javascript
@@ -444,7 +470,7 @@ export default {
 
 ### Step 6: Write the Unit Test with Vitest (`.test.js`)
 
-Create `packages/components/ckl-avatar/src/ckl-avatar.test.js`:
+Create `packages/vue/ckl-avatar/src/ckl-avatar.test.js`:
 
 ```javascript
 import { mount } from "@vue/test-utils";
@@ -483,18 +509,18 @@ describe("CklAvatar Component", () => {
 
 To make your component available in the interactive workbench:
 
-1. **Add the workspace dependency in `apps/storybook/package.json`**:
+1. **Add the workspace dependency in `apps/storybook-portal/package.json`**:
    ```json
    "dependencies": {
-     "@components-kit/ckl-avatar": "*",
+     "@components-kit/vue-ckl-avatar": "*",
      ...
    }
    ```
 2. **Run `pnpm install`** at the monorepo root so pnpm generates the local workspace symlink.
-3. **Add the story in `apps/storybook/stories/ckl-avatar/index.stories.js`**:
+3. **Add the story in `apps/storybook-portal/stories/ckl-avatar/index.stories.js`**:
 
 ```javascript
-import { CklAvatar } from "@components-kit/ckl-avatar";
+import { CklAvatar } from "@components-kit/vue-ckl-avatar";
 
 export default {
   title: "components/ckl-avatar",
@@ -530,13 +556,13 @@ Verify your component against all monorepo quality standards:
 
 ```bash
 # 1. Run unit tests
-pnpm lerna run test --scope=@components-kit/ckl-avatar
+pnpm lerna run test --scope=@components-kit/vue-ckl-avatar
 
 # 2. Compile ESM bundle
-pnpm lerna run build --scope=@components-kit/ckl-avatar
+pnpm lerna run build --scope=@components-kit/vue-ckl-avatar
 
 # 3. Check code style with Oxlint (Vite+)
-pnpm --filter @components-kit/ckl-avatar lint
+pnpm --filter @components-kit/vue-ckl-avatar lint
 
 # 4. Preview in Storybook
 pnpm storybook:dev
@@ -552,7 +578,7 @@ If an individual component requires an external npm library (for example, `canva
 
 ```bash
 # Syntax: pnpm --filter <package_name> add <library>
-pnpm --filter @components-kit/ckl-badge add canvas-confetti
+pnpm --filter @components-kit/vue-ckl-badge add canvas-confetti
 ```
 
 ### Adding a Tool to the Monorepo Root
@@ -581,6 +607,7 @@ pnpm --filter @components-kit/assets update
 ### Independent Versioning (`independent`)
 
 In [lerna.json](file:///Users/nelo/proyectos/components-kit/lerna.json), we configure:
+
 ```json
 {
   "version": "independent"
@@ -588,11 +615,12 @@ In [lerna.json](file:///Users/nelo/proyectos/components-kit/lerna.json), we conf
 ```
 
 #### What Does This Mean?
-* In traditional monorepos using **fixed versions**, modifying one package forces all 14 packages to increment their version numbers together.
-* Under **independent versioning**, each package maintains its own semantic version:
-  * `ckl-badge` can be at `1.4.2`
-  * `ckl-carousel` can be at `2.1.0`
-  * `ckl-icon` can be at `1.0.3`
+
+- In traditional monorepos using **fixed versions**, modifying one package forces all 14 packages to increment their version numbers together.
+- Under **independent versioning**, each package maintains its own semantic version:
+  - `ckl-badge` can be at `1.4.2`
+  - `ckl-carousel` can be at `2.1.0`
+  - `ckl-icon` can be at `1.0.3`
 
 Lerna uses `git diff` against tags to detect exactly which folders changed, proposing version bumps only for packages with actual modifications.
 
@@ -601,6 +629,7 @@ Lerna uses `git diff` against tags to detect exactly which folders changed, prop
 ### Quality & Commit Hooks (.vite-hooks/)
 
 Git hooks are managed natively via **Vite+ Hooks (`vp hooks`)**, eliminating the need for third-party managers like Husky:
+
 - **`pre-commit`** (`.vite-hooks/pre-commit`):
   1. Runs `vp staged`: automatically runs Oxlint and Oxfmt on staged files, fixing formatting issues before commit.
   2. Runs `vp run -r test`: verifies all unit tests across the 14 component packages pass (~1.8s) before allowing the commit.
@@ -626,42 +655,43 @@ Every commit message in this monorepo must adhere to the standard Conventional C
 - **`type`**: Must be in lowercase. See the table below for allowed types.
 - **`scope`** (recommended): Name of the affected package or domain in lowercase (e.g. `ckl-badge`, `storybook`, `toolchain`, `deps`).
 - **`subject`**:
-  * Written in **lowercase** (e.g., `add click trigger support`, not `Add Click Trigger Support`).
-  * Use the **imperative mood** (e.g., `fix`, `add`, `update`, not `fixed`, `added`, `updates`).
-  * **No trailing period** (`.`) at the end of the subject.
-  * Maximum header length: **100 characters**.
+  - Written in **lowercase** (e.g., `add click trigger support`, not `Add Click Trigger Support`).
+  - Use the **imperative mood** (e.g., `fix`, `add`, `update`, not `fixed`, `added`, `updates`).
+  - **No trailing period** (`.`) at the end of the subject.
+  - Maximum header length: **100 characters**.
 
 #### 2. Allowed Commit Types
 
-| Type | Description | SemVer Impact on Release |
-| :--- | :--- | :---: |
-| `feat` | A new user-facing feature or component capability | **Minor** (`1.0.0` ➔ `1.1.0`) |
-| `fix` | A bug fix for a component or tool | **Patch** (`1.0.0` ➔ `1.0.1`) |
-| `docs` | Documentation changes only (`README.md`, guides, inline comments) | None |
-| `style` | Formatting changes that do not affect code meaning (whitespace, Oxfmt) | None |
-| `refactor` | Code restructuring without fixing a bug or adding a feature | None |
-| `perf` | A code change that improves rendering or build performance | **Patch** (`1.0.0` ➔ `1.0.1`) |
-| `test` | Adding missing tests or correcting existing tests | None |
-| `build` | Changes to build system, bundling (Rolldown/Vite+), or external tooling | None |
-| `ci` | Changes to CI/CD configuration files and scripts | None |
-| `chore` | Maintenance tasks, dependency updates, or internal scripts | None |
-| `revert` | Reverting a previous commit | Depends |
+| Type       | Description                                                             |   SemVer Impact on Release    |
+| :--------- | :---------------------------------------------------------------------- | :---------------------------: |
+| `feat`     | A new user-facing feature or component capability                       | **Minor** (`1.0.0` → `1.1.0`) |
+| `fix`      | A bug fix for a component or tool                                       | **Patch** (`1.0.0` → `1.0.1`) |
+| `docs`     | Documentation changes only (`README.md`, guides, inline comments)       |             None              |
+| `style`    | Formatting changes that do not affect code meaning (whitespace, Oxfmt)  |             None              |
+| `refactor` | Code restructuring without fixing a bug or adding a feature             |             None              |
+| `perf`     | A code change that improves rendering or build performance              | **Patch** (`1.0.0` → `1.0.1`) |
+| `test`     | Adding missing tests or correcting existing tests                       |             None              |
+| `build`    | Changes to build system, bundling (Rolldown/Vite+), or external tooling |             None              |
+| `ci`       | Changes to CI/CD configuration files and scripts                        |             None              |
+| `chore`    | Maintenance tasks, dependency updates, or internal scripts              |             None              |
+| `revert`   | Reverting a previous commit                                             |            Depends            |
 
 #### 3. Recommended Scopes
 
-* **Component Scopes**: `(ckl-badge)`, `(ckl-tooltip)`, `(ckl-carousel)`, `(ckl-side-nav)`, etc.
-* **Workspace Scopes**: `(storybook)`, `(components-kit)`, `(assets)`.
-* **Infrastructure Scopes**: `(toolchain)`, `(monorepo)`, `(deps)`, `(docs)`.
+- **Component Scopes**: `(ckl-badge)`, `(ckl-tooltip)`, `(ckl-carousel)`, `(ckl-side-nav)`, etc.
+- **Workspace Scopes**: `(storybook)`, `(components-kit)`, `(assets)`.
+- **Infrastructure Scopes**: `(toolchain)`, `(monorepo)`, `(deps)`, `(docs)`.
 
 #### 4. Body and Footer Rules (Line Length Gotcha)
 
 - **Separation**: There must be an empty blank line between the header, the body, and the footer.
 - **Line Length Limit**: **Every line in the commit body must be <= 100 characters**. If lines exceed 100 characters, Commitlint will reject the commit with `[body-max-line-length]`. Always wrap long descriptions.
-- **Breaking Changes**: Indicate a breaking change by appending `!` after the type/scope (e.g. `feat(ckl-icon)!: replace legacy font icons with inline SVGs`) or by including `BREAKING CHANGE: <explanation>` in the footer. This triggers a **Major** release (`1.0.0` ➔ `2.0.0`).
+- **Breaking Changes**: Indicate a breaking change by appending `!` after the type/scope (e.g. `feat(ckl-icon)!: replace legacy font icons with inline SVGs`) or by including `BREAKING CHANGE: <explanation>` in the footer. This triggers a **Major** release (`1.0.0` → `2.0.0`).
 
 #### 5. Concrete Examples
 
-##### ✅ Valid Commit Messages
+##### Valid Commit Messages
+
 ```bash
 # Feature on a component
 git commit -m "feat(ckl-tooltip): add interactive click trigger support"
@@ -682,7 +712,8 @@ Migrate the entire repository toolchain to the 100% native Vite+ standard.
 Replaces legacy Yarn, ESLint, Stylelint, Husky, and lint-staged."
 ```
 
-##### ❌ Invalid Commit Messages (Blocked by Commitlint)
+##### Invalid Commit Messages (Blocked by Commitlint)
+
 ```bash
 # ERROR: Capitalized subject
 git commit -m "feat(ckl-badge): Add new outline variant"
@@ -701,6 +732,7 @@ git commit -m "updated(deps): bump vite to 7.0.0"
 ```
 
 #### 6. Ignored Prefixes
+
 Commits starting with `wip` or `publish` are exempt from Commitlint validation (configured in `commitlint.config.js`).
 
 ---
@@ -708,25 +740,31 @@ Commits starting with `wip` or `publish` are exempt from Commitlint validation (
 ### Release Workflow: Bumping and Publishing
 
 The command in [package.json](file:///Users/nelo/proyectos/components-kit/package.json) is:
+
 ```bash
 pnpm lerna:version
 ```
+
 Which executes under the hood:
+
 ```bash
 lerna version --no-private --no-push
 ```
 
 #### What Happens Step-by-Step?
+
 1. Lerna inspects commits created since the latest Git tag.
 2. Identifies modified packages.
 3. Prompts interactively for the version bump type (Patch, Minor, Major).
 4. Updates each affected package's `package.json`.
-5. Creates the corresponding local Git tags (e.g. `@components-kit/ckl-badge@1.1.0`).
+5. Creates the corresponding local Git tags (e.g. `@components-kit/vue-ckl-badge@1.1.0`).
 
 When ready to publish to an npm registry (public or private):
+
 ```bash
 lerna publish from-git
 ```
+
 This reads the newly generated Git tags and publishes only the newly versioned packages.
 
 ---
@@ -734,21 +772,25 @@ This reads the newly generated Git tags and publishes only the newly versioned p
 ### Why Packages Are Marked `"private": true`
 
 All components in this monorepo currently define `"private": true`:
-* **Accidental Publish Guard:** Prevents developers from inadvertently running `npm publish` and exposing internal libraries to the public npmjs.com registry.
-* **Internal Distribution:** Suitable for consumption via private Git repositories, submodules, or enterprise artifact registries (such as Verdaccio, Nexus, or GitHub Packages).
-* When you are ready to publish a package to a public or private npm registry, simply remove `"private": true` from that package's individual `package.json`.
+
+- **Accidental Publish Guard:** Prevents developers from inadvertently running `npm publish` and exposing internal libraries to the public npmjs.com registry.
+- **Internal Distribution:** Suitable for consumption via private Git repositories, submodules, or enterprise artifact registries (such as Verdaccio, Nexus, or GitHub Packages).
+- When you are ready to publish a package to a public or private npm registry, simply remove `"private": true` from that package's individual `package.json`.
 
 ---
 
 ## 7. Troubleshooting & FAQ
 
 ### Q: Storybook or Vite cannot resolve a newly created component.
-**A:** Ensure you added `"@components-kit/ckl-your-component": "*"` to `apps/storybook/package.json` and executed `pnpm install` at the monorepo root to create the local symlink in `node_modules`.
+
+**A:** Ensure you added `"@components-kit/vue-ckl-your-component": "*"` to `apps/storybook-portal/package.json` and executed `pnpm install` at the monorepo root to create the local symlink in `node_modules`.
 
 ---
 
 ### Q: I edited code, but `pnpm test` or `pnpm build` finished in 50ms stating `read from cache`.
+
 **A:** Nx detected that the source files have not changed since the last execution. To bypass the cache and force a complete rerun:
+
 ```bash
 pnpm test --skip-nx-cache
 pnpm build --skip-nx-cache
@@ -757,7 +799,9 @@ pnpm build --skip-nx-cache
 ---
 
 ### Q: Dependencies or node_modules appear out of sync after checking out another branch.
+
 **A:** Perform a deep monorepo cleanup:
+
 ```bash
 # Removes all node_modules from all workspace packages
 pnpm lerna clean --yes
@@ -770,7 +814,9 @@ pnpm install
 ---
 
 ### Q: Git rejected my commit stating `commit-msg hook failed`.
+
 **A:** Commitlint requires the Conventional Commit syntax. Example of an accepted message:
+
 ```bash
 git commit -m "fix(ckl-badge): adjust border radius alignment in oval shape"
 ```
@@ -781,9 +827,13 @@ git commit -m "fix(ckl-badge): adjust border radius alignment in oval shape"
 
 ```bash
 # ========================================================
-# 🚀 EVERYDAY WORKFLOW
+# EVERYDAY WORKFLOW
 # ========================================================
-pnpm storybook:dev                    # Launch Storybook 10 at http://localhost:6006
+pnpm storybook:dev                    # Launch ALL Storybooks in parallel (Portal 6005, Vue 6006, React 6007)
+pnpm storybook:portal:dev             # Launch Storybook Composition Portal only (http://localhost:6005)
+pnpm storybook:vue:dev                # Launch Vue 3 Storybook only (http://localhost:6006)
+pnpm storybook:react:dev              # Launch React 19 Storybook only (http://localhost:6007)
+pnpm storybook:build                  # Compile unified Composition Hub for GitHub Pages
 pnpm test                             # Run ALL unit test suites in parallel (Vitest 5)
 pnpm build                            # Compile ALL packages across monorepo (Rolldown / Vite Task)
 pnpm lint                             # Fast Oxlint scan across all packages (< 700ms)
@@ -791,20 +841,22 @@ pnpm fmt                              # Format code in place using Oxfmt
 pnpm check                            # Run format, lint, and type checks in a single pass
 
 # ========================================================
-# 🎯 SINGLE PACKAGE SCOPING
+# SINGLE PACKAGE SCOPING
 # ========================================================
-pnpm lerna run test --scope=@components-kit/ckl-badge    # Test only ckl-badge
-pnpm lerna run build --scope=@components-kit/ckl-badge   # Build only ckl-badge
-pnpm --filter @components-kit/ckl-badge test:watch      # Live test watch mode
+pnpm lerna run test --scope=@components-kit/vue-ckl-badge         # Test Vue ckl-badge
+pnpm lerna run test --scope=@components-kit/react-ckl-badge   # Test React ckl-badge
+pnpm lerna run build --scope=@components-kit/vue-ckl-badge        # Build Vue ckl-badge
+pnpm lerna run build --scope=@components-kit/react-ckl-badge  # Build React ckl-badge
+pnpm --filter @components-kit/vue-ckl-badge test:watch           # Live test watch mode
 
 # ========================================================
-# 🔍 VISUALIZATION & DIAGNOSTICS
+# VISUALIZATION & DIAGNOSTICS
 # ========================================================
 pnpm graph                            # Open interactive 3D dependency graph
 pnpm audit                            # Check security vulnerabilities
 
 # ========================================================
-# 📦 VERSIONING & CLEANUP
+# VERSIONING & CLEANUP
 # ========================================================
 pnpm lerna:version                    # Bump independent semantic versions
 pnpm lerna clean                      # Purge all workspace node_modules
@@ -813,5 +865,5 @@ pnpm lerna clean                      # Purge all workspace node_modules
 ---
 
 <div align="center">
-  <sub>Components Kit Monorepo Guide • Built with 💖 and Lerna 10 + Nx Workspaces.</sub>
+  <sub>Components Kit Monorepo Guide • Built with Lerna 10 + Nx Workspaces.</sub>
 </div>

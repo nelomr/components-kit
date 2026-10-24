@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite-plus';
+import { defineConfig } from "vite-plus";
 
 export default defineConfig({
   fmt: {},
@@ -9,6 +9,6 @@ export default defineConfig({
     },
   },
   staged: {
-    '*.{js,mjs,ts,vue}': 'vp check --fix',
+    "*.{js,mjs,ts,vue}": "vp check --fix",
   },
 });

@@ -1,0 +1,47 @@
+{
+  "name": "@components-kit/storybook-vue",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "keywords": [],
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "storybook dev -p 6006 --host localhost --no-open",
+    "build": "storybook build",
+    "lint": "vp lint ."
+  },
+  "dependencies": {
+    "@components-kit/assets": "*",
+    "@components-kit/core": "*",
+    "@components-kit/storybook-shared": "*",
+    "@components-kit/styles": "*",
+    "@components-kit/vue-ckl-badge": "*",
+    "@components-kit/vue-ckl-barometer-chart": "*",
+    "@components-kit/vue-ckl-breadcrumb": "*",
+    "@components-kit/vue-ckl-carousel": "*",
+    "@components-kit/vue-ckl-horizontal-tabs": "*",
+    "@components-kit/vue-ckl-icon": "*",
+    "@components-kit/vue-ckl-loader": "*",
+    "@components-kit/vue-ckl-pagination": "*",
+    "@components-kit/vue-ckl-progress-bar": "*",
+    "@components-kit/vue-ckl-side-nav": "*",
+    "@components-kit/vue-ckl-slides": "*",
+    "@components-kit/vue-ckl-tooltip": "*",
+    "@components-kit/vue-ckl-truncate-text": "*",
+    "@components-kit/vue-ckl-vertical-tabs": "*"
+  },
+  "devDependencies": {
+    "@storybook/addon-designs": "^12.0.0",
+    "@storybook/addon-docs": "^10.6.3",
+    "@storybook/vue3": "^10.6.3",
+    "@storybook/vue3-vite": "^10.6.3",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "storybook": "^10.6.3",
+    "vite": "catalog:",
+    "vite-svg-loader": "^5.1.0",
+    "vue": "^3.5.44"
+  }
+}

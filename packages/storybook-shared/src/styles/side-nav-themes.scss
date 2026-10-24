@@ -1,0 +1,33 @@
+@use "@components-kit/styles/scss" as *;
+
+.ckl-side-nav-theme-light .ckl-side-nav {
+  @include default-styles(
+    side-nav,
+    (
+      background-color: var(--primary-500),
+      border-size: 1px solid,
+      border-spacer-color: var(--grey-100),
+      item-background-color: var(--clear-200),
+      item-font-size: 16px,
+      item-color: var(--clear-500),
+      item-background-color-active: var(--clear-300),
+      subitem-font-size: 12px,
+    )
+  );
+}
+
+.ckl-side-nav-theme-dark .ckl-side-nav {
+  @include default-styles(
+    side-nav,
+    (
+      background-color: #222,
+      border-size: 1px solid,
+      border-spacer-color: #333,
+      item-background-color: #222,
+      item-font-size: 16px,
+      item-color: #fff,
+      item-background-color-active: #333,
+      subitem-font-size: 12px,
+    )
+  );
+}

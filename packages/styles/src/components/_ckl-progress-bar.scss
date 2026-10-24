@@ -1,0 +1,41 @@
+@use "../mixins" as *;
+
+.ckl-progress-bar {
+  width: 100%;
+
+  &__bar {
+    height: 8px;
+    background: var(--grey-100);
+    border-radius: 10px;
+
+    & .ckl-progress-bar__value {
+      height: 100%;
+      border-radius: 10px;
+
+      &--color {
+        &-error {
+          background: var(--error);
+        }
+
+        &-warning {
+          background: var(--warning);
+        }
+
+        &-acceptable {
+          background: var(--success-400);
+        }
+
+        &-success {
+          background: var(--success);
+        }
+      }
+    }
+  }
+
+  &__text {
+    margin-top: 8px;
+    color: var(--grey-500);
+    font-size: 12px;
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@components-kit/core",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shared pure JavaScript logic and DOM utilities for components-kit",
+  "license": "MIT",
+  "type": "module",
+  "main": "./index.js",
+  "module": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./on-click-outside": "./on-click-outside.js",
+    "./pagination-math": "./pagination-math.js",
+    "./barometer": "./barometer.js",
+    "./progress-bar": "./progress-bar.js",
+    "./truncate-text": "./truncate-text.js",
+    "./carousel-math": "./carousel-math.js",
+    "./tooltip-position": "./tooltip-position.js",
+    "./tabs": "./tabs.js",
+    "./side-nav": "./side-nav.js"
+  },
+  "scripts": {
+    "test": "kit-cli test",
+    "lint": "vp lint ."
+  },
+  "devDependencies": {
+    "@components-kit/tooling": "*"
+  }
+}

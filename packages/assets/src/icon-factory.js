@@ -1,25 +1,35 @@
-const icons = import.meta.glob('./icons/*.svg');
+// Global Icon Factory and Registry (Unified for Vue & React)
 
-let baseIconMap = Object.keys(icons).reduce((map, path) => {
-  return Object.assign(map, {[path.replace(/^.*?([^/]+)\.svg$/g, '$1')]: icons[path]});
+// Dynamic component loader for Vue (via vite-svg-loader)
+const icons = import.meta.glob("./icons/*.svg");
+
+// Eager raw SVG string loader for React / DOM
+const rawSvgIcons = import.meta.glob("./icons/*.svg", {
+  query: "?raw",
+  eager: true,
+  import: "default",
+});
+
+const baseIconMap = Object.keys(icons).reduce((map, path) => {
+  const name = path.replace(/^.*?([^/]+)\.svg$/g, "$1");
+  map[name] = icons[path];
+  return map;
+}, {});
+
+const baseRawSvgMap = Object.keys(rawSvgIcons).reduce((map, path) => {
+  const name = path.replace(/^.*?([^/]+)\.svg$/g, "$1");
+  map[name] = rawSvgIcons[path];
+  return map;
 }, {});
 
 let customIconMap = {};
 
 const _registerCustomIcon = (target, name, icon) => {
-  if (!icon || (!(icon.default && icon.default.render) && !icon.render && typeof icon !== 'function')) {
-    console.error(
-      `Icon ${name} will be ignored due to one of those reasons: It is not a module with a default export or it is not a component`
-    );
-    return target;
-  }
-
+  if (!icon) return target;
   if (icon.default) {
     icon = icon.default;
   }
-
   target[name] = icon;
-
   return target;
 };
 
@@ -27,13 +37,19 @@ const registerIcons = (icons) => {
   customIconMap = Object.keys(icons).reduce((map, name) => {
     return _registerCustomIcon(map, name, icons[name]);
   }, customIconMap);
-  //console.log('build customIconMap', customIconMap);
 };
 
 const registerIcon = (name, icon) => {
   _registerCustomIcon(customIconMap, name, icon);
 };
 
+// Aliases for React naming compatibility
+const registerCustomIcon = registerIcon;
+const registerCustomIcons = registerIcons;
+
+/**
+ * Returns Vue async component loader or registered component
+ */
 const getIcon = (iconName) => {
   if (customIconMap[iconName]) {
     return customIconMap[iconName];
@@ -46,10 +62,31 @@ const getIcon = (iconName) => {
   return baseIconMap[iconName];
 };
 
-const getIconList = () => {
-  return Object.keys(baseIconMap).concat(Object.keys(customIconMap));
+/**
+ * Returns raw SVG string for React / SVG renderer
+ */
+const getIconSvg = (iconName) => {
+  if (customIconMap[iconName]) {
+    return typeof customIconMap[iconName] === "string" ? customIconMap[iconName] : "";
+  }
+  return baseRawSvgMap[iconName] || "";
 };
 
-export {registerIcon, registerIcons, getIconList};
+/**
+ * Returns array of all available icon names
+ */
+const getIconList = () => {
+  return Array.from(new Set([...Object.keys(baseIconMap), ...Object.keys(customIconMap)]));
+};
+
+export {
+  registerIcon,
+  registerIcons,
+  registerCustomIcon,
+  registerCustomIcons,
+  getIcon,
+  getIconSvg,
+  getIconList,
+};
 
 export default getIcon;

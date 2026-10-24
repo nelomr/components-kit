@@ -1,18 +1,37 @@
 {
   "name": "@components-kit/assets",
   "version": "1.0.0",
-  "description": "Component kit UI assets and icons",
-  "type": "module",
   "private": true,
+  "description": "Component kit UI assets and icons",
+  "license": "MIT",
+  "type": "module",
   "main": "./src/index.js",
   "module": "./src/index.js",
   "exports": {
     ".": "./src/index.js",
     "./src": "./src/index.js",
-    "./style": "./src/components/ial-icon/ial-icon.scss"
+    "./vue": "./src/vue/index.js",
+    "./react": "./src/react/index.js",
+    "./illustrations/*": "./src/illustrations/*"
   },
-  "dependencies": {
+  "scripts": {
+    "lint": "vp lint src"
+  },
+  "devDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "vue": "^3.5.44"
   },
-  "license": "MIT"
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "vue": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  }
 }
